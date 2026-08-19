@@ -1301,6 +1301,7 @@
     jobOut.value = buildJobPrompt(job);
     copyJobBtn.disabled = false;
     genDirectBtn.disabled = false;
+    genDirectBtn.textContent = "✨ 直接生成（AI）";
     lastJobMeta = job;
     if (!document.getElementById("draft-title").value) {
       document.getElementById("draft-title").value = topic;
@@ -1336,11 +1337,12 @@
         document.getElementById("draft-content").value = res.data.text;
         document.getElementById("draft-content").closest(".card").scrollIntoView({ behavior: "smooth", block: "center" });
         toast("AI 生成完成！檢查一下，沒問題就按「存起來」");
+        genDirectBtn.textContent = "再生成一次要先按「產生提示詞」";
+        /* 按成功一次就鎖住，逼使用者重新按「產生提示詞」（會再消耗一次額度）才能再叫一次 AI，
+           避免同一份提示詞被狂點「直接生成」，額度沒扣但 DeepSeek 費用照樣一直燒。 */
       })
       .catch(function (e) {
         toast("生成失敗：" + e.message + "（可以改用「複製」貼去 ChatGPT）");
-      })
-      .finally(function () {
         genDirectBtn.disabled = false;
         genDirectBtn.textContent = oldLabel;
       });
