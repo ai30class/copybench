@@ -1301,7 +1301,7 @@
     jobOut.value = buildJobPrompt(job);
     copyJobBtn.disabled = false;
     genDirectBtn.disabled = false;
-    genDirectBtn.textContent = "✨ 直接生成（AI）";
+    genDirectBtn.textContent = usage.tier === "trial" ? "🔒 直接生成（加 LINE 解鎖）" : "✨ 直接生成（AI）";
     lastJobMeta = job;
     if (!document.getElementById("draft-title").value) {
       document.getElementById("draft-title").value = topic;
@@ -1323,6 +1323,11 @@
 
   genDirectBtn.addEventListener("click", function () {
     if (!jobOut.value) return;
+    if (usage.tier === "trial") {
+      toast("「直接生成」要先加 LINE 解鎖，免費試用階段請用「複製」貼去 ChatGPT");
+      showUpgradeCard();
+      return;
+    }
     genDirectBtn.disabled = true;
     var oldLabel = genDirectBtn.textContent;
     genDirectBtn.textContent = "生成中…";
