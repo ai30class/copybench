@@ -328,7 +328,7 @@
         <h2>第一次使用？先看這裡</h2>
         <button class="btn btn-outline btn-sm" id="guideToggle">收合</button>
       </div>
-      <p class="desc" style="margin-bottom:12px;">這個工具的目的：讓 AI 幫你寫文案時，用<b>你的語氣</b>、對<b>你的讀者</b>說話、順便推<b>你的東西</b>。照著下面四個區塊填一次（約 3 分鐘），之後寫文案都不用再重新解釋一遍。</p>
+      <p class="desc" style="margin-bottom:12px;">這個工具的目的：讓 AI 幫你寫文案時，用<b>你的語氣</b>、對<b>你的受眾</b>說話、順便推<b>你的東西</b>。照著下面四個區塊填一次（約 3 分鐘），之後寫文案都不用再重新解釋一遍。</p>
       <div id="guideBody">
         <ol class="guide-steps">
           <li><b>照著問題填資料</b>——欄位裡預先填好的都是範例，直接改成你自己的就可以了</li>
@@ -338,8 +338,8 @@
         <div class="glossary">
           <div class="g-title">看不懂的詞，這裡都有白話解釋：</div>
           <ul>
-            <li><b>客群</b>＝你的讀者是誰。同一件事，跟「完全不會的長輩」和「想省時間的上班族」，說法完全不同。</li>
-            <li><b>CTA</b>＝看完貼文後，你請讀者做的下一個動作。例如：加 LINE、留言 +1、把貼文存起來。</li>
+            <li><b>客群</b>＝你的受眾是誰。同一件事，跟「完全不會的長輩」和「想省時間的上班族」，說法完全不同。</li>
+            <li><b>CTA</b>＝看完貼文後，你請受眾做的下一個動作。例如：加 LINE、留言 +1、把貼文存起來。</li>
             <li><b>品牌聲音</b>＝你說話的風格。像朋友聊天？像老師上課？會不會用表情符號？</li>
             <li><b>提示詞</b>＝給 AI 看的完整說明書。AI 看了就知道要怎麼幫你寫。</li>
           </ul>
@@ -376,21 +376,21 @@
 
     <div class="card">
       <div class="card-head">
-        <h2><span class="step">2</span>你的讀者是誰？</h2>
-        <button class="btn btn-outline btn-sm" id="addAudience">＋ 加一群讀者</button>
+        <h2><span class="step">2</span>你的受眾是誰？</h2>
+        <button class="btn btn-outline btn-sm" id="addAudience">＋ 加一群受眾</button>
       </div>
-      <p class="desc">同一件事，跟不同人說法完全不同（跟長輩和跟上班族說話的方式不一樣，對吧）。下面幾張卡是範例，改成你自己常遇到的讀者就好，建議最多 3～4 種。</p>
+      <p class="desc">同一件事，跟不同人說法完全不同（跟長輩和跟上班族說話的方式不一樣，對吧）。下面幾張卡是範例，改成你自己常遇到的受眾就好，建議最多 3～4 種。</p>
       <div class="aud-grid" id="audGrid"></div>
     </div>
 
     <div class="card">
       <div class="card-head">
-        <h2><span class="step">3</span>你在推什麼？要讀者做什麼？</h2>
+        <h2><span class="step">3</span>你在推什麼？要受眾做什麼？</h2>
         <button class="btn btn-outline btn-sm" id="addService">＋ 加一個在推的東西</button>
       </div>
-      <p class="desc">「CTA」聽起來很專業，白話就是：<b>看完貼文後，你想請讀者做的下一個動作</b>（例如：加 LINE、留言、存起來）。把你在推的每個東西配一句話，AI 之後會自動放在文案結尾。</p>
+      <p class="desc">「CTA」聽起來很專業，白話就是：<b>看完貼文後，你想請受眾做的下一個動作</b>（例如：加 LINE、留言、存起來）。把你在推的每個東西配一句話，AI 之後會自動放在文案結尾。</p>
       <div class="svc-head">
-        <span>你在推的東西</span><span>類型</span><span>要讀者做什麼？（直接寫那句話）</span><span></span>
+        <span>你在推的東西</span><span>類型</span><span>要受眾做什麼？（直接寫那句話）</span><span></span>
       </div>
       <div id="svcList"></div>
     </div>
@@ -429,7 +429,7 @@
 
     <div class="card" style="border-color: var(--purple-mid);">
       <div class="card-head"><h2><span class="step">5</span>一鍵打包（填完上面就來這裡）</h2></div>
-      <p class="desc">按下按鈕，你填的所有資料會自動變成一段「給 AI 的說明書」。把它<b>複製起來，貼到 ChatGPT 等 AI 對話的最開頭</b>，AI 就會用你的語氣、對你的讀者、推你的東西來寫文案。</p>
+      <p class="desc">按下按鈕，你填的所有資料會自動變成一段「給 AI 的說明書」。把它<b>複製起來，貼到 ChatGPT 等 AI 對話的最開頭</b>，AI 就會用你的語氣、對你的受眾、推你的東西來寫文案。</p>
       <div class="prompt-actions">
         <button class="btn" id="genPrompt">一鍵打包</button>
         <button class="btn btn-outline" id="copyPrompt" disabled>複製（貼去 AI 用）</button>
@@ -481,7 +481,7 @@
           </div>
         </div>
         <div>
-          <label class="field-label">讀者跟你的關係是？</label>
+          <label class="field-label">受眾跟你的關係是？</label>
           <div class="chip-group" id="job-stage">
             <label class="chip"><input type="radio" name="stage" value="還不認識我" checked>還不認識我</label>
             <label class="chip"><input type="radio" name="stage" value="對我有興趣">對我有興趣</label>
@@ -672,7 +672,7 @@
     </div>
 
     <div class="card" style="border-color: var(--teal);">
-      <p class="desc" style="margin-bottom:0;"><b>最後一條紅線：</b>AI 只負責幫你打草稿，按「發布」鍵的永遠是你本人。平台不喜歡全自動的內容農場，你的讀者追蹤的也是「人」。</p>
+      <p class="desc" style="margin-bottom:0;"><b>最後一條紅線：</b>AI 只負責幫你打草稿，按「發布」鍵的永遠是你本人。平台不喜歡全自動的內容農場，你的受眾追蹤的也是「人」。</p>
     </div>
 
   </section>
@@ -902,9 +902,9 @@
       return '<div class="aud-card" data-i="' + i + '">' +
         '<div class="aud-top">' +
           '<input class="aud-name" data-field="name" value="' + esc(a.name) + '" placeholder="例如：職業媽媽">' +
-          '<span class="tag">讀者 ' + (i + 1) + '</span>' +
+          '<span class="tag">受眾 ' + (i + 1) + '</span>' +
           '<span style="flex:1"></span>' +
-          '<button class="icon-btn del-aud" title="刪除此讀者群">✕</button>' +
+          '<button class="icon-btn del-aud" title="刪除此受眾群">✕</button>' +
         '</div>' +
         '<label class="field-label" style="font-size:12px;">他們心裡最常抱怨的話（他們的困擾）</label>' +
         '<textarea rows="2" data-field="pain" placeholder="例如：「下班就沒力氣了，哪有時間學」">' + esc(a.pain) + '</textarea>' +
@@ -933,12 +933,12 @@
       profile.audiences.splice(i, 1);
       renderAudiences();
       scheduleSave();
-      toast("已刪除一個讀者群");
+      toast("已刪除一個受眾群");
     });
   });
 
   document.getElementById("addAudience").addEventListener("click", function () {
-    profile.audiences.push({ id: uid(), name: "我的讀者", pain: "", tone: "" });
+    profile.audiences.push({ id: uid(), name: "我的受眾", pain: "", tone: "" });
     renderAudiences();
     scheduleSave();
     var cards = audGrid.querySelectorAll(".aud-card");
@@ -958,7 +958,7 @@
       return '<div class="svc-row" data-i="' + i + '">' +
         '<div><div class="cell-label">你在推的東西</div><input type="text" data-field="name" value="' + esc(s.name) + '" placeholder="例如：免費食譜電子書"></div>' +
         '<div><div class="cell-label">類型</div><select data-field="type">' + opts + '</select></div>' +
-        '<div><div class="cell-label">要讀者做什麼？（CTA）</div><input type="text" data-field="cta" value="' + esc(s.cta) + '" placeholder="例如：加 LINE 免費領（連結在主頁）"></div>' +
+        '<div><div class="cell-label">要受眾做什麼？（CTA）</div><input type="text" data-field="cta" value="' + esc(s.cta) + '" placeholder="例如：加 LINE 免費領（連結在主頁）"></div>' +
         '<div style="display:flex; align-items:center; justify-content:flex-end; padding-top:' + (window.innerWidth <= 640 ? "0" : "6px") + ';">' +
           '<button class="icon-btn del-svc" title="刪除此服務">✕</button>' +
         '</div>' +
@@ -1112,7 +1112,7 @@
     var svcSel = document.getElementById("job-service");
     audSel.innerHTML = profile.audiences.length
       ? profile.audiences.map(function (a) { return '<option value="' + esc(a.name) + '">' + esc(a.name) + "</option>"; }).join("")
-      : '<option value="">（先去「品牌設定檔」加讀者）</option>';
+      : '<option value="">（先去「品牌設定檔」加受眾）</option>';
     svcSel.innerHTML = '<option value="">這篇不用推廣</option>' +
       profile.services.map(function (s) { return '<option value="' + esc(s.name) + '">' + esc(s.name) + "</option>"; }).join("");
   }
@@ -1134,7 +1134,7 @@
       "- 寫給誰：" + job.audience + (job.audDetail ? "（他們的困擾：" + (job.audDetail.pain || "—") + "；要用的口氣：" + (job.audDetail.tone || "—") + "）" : "") + "\n" +
       "- 順便推：" + (job.service ? job.service + "，CTA：「" + job.cta + "」" : "這篇不用推廣，CTA 以互動為主（留言或存起來）") + "\n" +
       "- 發布平台：" + job.platforms.join("、") + "\n" +
-      "- 讀者狀態：" + job.stage + "（" + STAGE_NOTES[job.stage] + "）\n\n" +
+      "- 受眾狀態：" + job.stage + "（" + STAGE_NOTES[job.stage] + "）\n\n" +
       "【平台格式要求】\n" + platformRules + "\n\n" +
       "【版本】" + (job.version === "全部三版"
         ? "三個版本都要寫，每版開頭標明版本名稱：\n  A 版（知識乾貨）：步驟清楚、可操作，讓人想存起來\n  B 版（共鳴故事）：用真實故事打中情緒，讓人想留言\n  C 版（衝突獵奇）：反直覺、強對比，讓人想轉發"
@@ -1144,7 +1144,7 @@
       "2. 開頭用觀點或痛點，不要知識開頭、不要寒暄。\n" +
       "3. CTA 放結尾、要具體（依上面指定），禁止只寫「歡迎關注」。\n" +
       "4. 結尾加上設定的署名格式。\n" +
-      "5. 語氣貼合指定讀者與品牌聲音。";
+      "5. 語氣貼合指定受眾與品牌聲音。";
   }
 
   var jobOut = document.getElementById("jobOut");
@@ -1290,7 +1290,7 @@
     var svc = profile.services.filter(function (s) { return s.name === svcName; })[0] || null;
     var job = {
       topic: topic,
-      audience: audName || "所有讀者",
+      audience: audName || "所有受眾",
       audDetail: audDetail,
       service: svc ? svc.name : "",
       cta: svc ? (svc.cta || "") : "",
