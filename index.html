@@ -1216,16 +1216,21 @@
     card.classList.add("show");
     document.getElementById("unlockBtn").addEventListener("click", function () {
       var code = (document.getElementById("unlockInput").value || "").trim().toUpperCase();
+      var wasTrial = usage.tier === "trial";
       if (usage.tier === "trial" && code === LINE_UNLOCK_CODE) {
         usage = { tier: "line", used: 0 };
         persistUsage();
         renderUsageBadge();
+        renderMethodGate();
+        if (wasTrial && jobOut.value) { genDirectBtn.disabled = false; genDirectBtn.textContent = "✨ 直接生成（AI）"; }
         card.classList.remove("show");
         toast("解鎖成功！再多 5 次免費使用");
       } else if (code === STUDENT_UNLOCK_CODE) {
         usage = { tier: "student", used: 0 };
         persistUsage();
         renderUsageBadge();
+        renderMethodGate();
+        if (wasTrial && jobOut.value) { genDirectBtn.disabled = false; genDirectBtn.textContent = "✨ 直接生成（AI）"; }
         card.classList.remove("show");
         toast("驗證成功！AI30 主課學員身份已解鎖，無限次使用");
       } else {
@@ -1261,10 +1266,12 @@
   document.getElementById("methodUnlockBtn").addEventListener("click", function () {
     var code = (document.getElementById("methodUnlockInput").value || "").trim().toUpperCase();
     if (code === STUDENT_UNLOCK_CODE) {
+      var wasTrial = usage.tier === "trial";
       usage = { tier: "student", used: 0 };
       persistUsage();
       renderUsageBadge();
       renderMethodGate();
+      if (wasTrial && jobOut.value) { genDirectBtn.disabled = false; genDirectBtn.textContent = "✨ 直接生成（AI）"; }
       toast("驗證成功！AI30 主課學員身份已解鎖");
     } else {
       toast("學員碼不正確，再檢查一下");
