@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI30CLASS 文案工作台 · 品牌設定檔</title>
+<style>
+  :root {
+    --purple: #534AB7;
+    --purple-dark: #3C3489;
+    --purple-light: #EEEDFE;
+    --purple-mid: #CECBF6;
+    --ink: #26215C;
+    --text: #2C2C2A;
+    --muted: #6B6A66;
+    --border: #E4E2F5;
+    --bg: #F7F6FC;
+    --card: #FFFFFF;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --danger: #A32D2D;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* header */
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .header-inner {
+    max-width: 1080px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--purple); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; letter-spacing: 0.5px;
+  }
+  .brand h1 { font-size: 17px; color: var(--ink); font-weight: 700; }
+  .brand p { font-size: 12px; color: var(--muted); }
+  .save-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .save-dot { width: 8px; height: 8px; border-radius: 50%; background: #97C459; }
+  .save-dot.saving { background: #EF9F27; }
+
+  /* tabs */
+  .tabs { display: flex; gap: 6px; padding: 12px 20px 0; max-width: 1080px; margin: 0 auto; flex-wrap: wrap; }
+  .tab-btn {
+    border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    padding: 8px 16px; border-radius: 10px 10px 0 0; cursor: pointer;
+    font-size: 14px; font-family: inherit; display: flex; align-items: center; gap: 8px;
+  }
+  .tab-btn:hover { color: var(--purple); }
+  .tab-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; font-weight: 500; }
+  .tab-btn .badge {
+    font-size: 10px; padding: 1px 7px; border-radius: 20px;
+    background: #EDEDEA; color: var(--muted);
+  }
+  .tab-btn.active .badge { background: rgba(255,255,255,0.25); color: #fff; }
+
+  main { padding-top: 24px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* section cards */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; margin-bottom: 20px;
+  }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .card h2 { font-size: 16px; color: var(--ink); font-weight: 700; }
+  .card h2 .step {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px; background: var(--purple-light);
+    color: var(--purple); font-size: 12px; margin-right: 8px; vertical-align: 2px;
+  }
+  .card .desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+  /* form elements */
+  label.field-label { display: block; font-size: 13px; font-weight: 500; color: var(--ink); margin: 14px 0 6px; }
+  label.field-label:first-of-type { margin-top: 0; }
+  input[type="text"], textarea, select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: inherit; color: var(--text); background: #fff;
+    transition: border-color .15s;
+  }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--purple); }
+  textarea { resize: vertical; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .three-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .statement-box {
+    margin-top: 16px; padding: 14px 16px; border-radius: 10px;
+    background: var(--purple-light); border: 1px solid var(--purple-mid);
+  }
+  .statement-box .field-label { margin-top: 0; color: var(--purple-dark); }
+
+  /* audience cards */
+  .aud-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .aud-card {
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+    background: #FCFCFE; position: relative;
+  }
+  .aud-card .aud-top { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+  .aud-card input.aud-name { font-weight: 700; color: var(--ink); background: transparent; border: transparent; padding: 6px 4px; }
+  .aud-card input.aud-name:hover, .aud-card input.aud-name:focus { background: #fff; border-color: var(--purple); }
+  .aud-card textarea { font-size: 13px; margin-top: 6px; }
+  .icon-btn {
+    border: none; background: transparent; cursor: pointer; color: var(--muted);
+    font-size: 15px; padding: 6px; border-radius: 6px; line-height: 1;
+  }
+  .icon-btn:hover { background: #FBECEC; color: var(--danger); }
+  .icon-btn.confirm { background: var(--danger); color: #fff; width: auto; padding: 4px 10px; font-size: 12px; white-space: nowrap; }
+  .btn-ghost.confirm { color: #fff; background: var(--danger); border-color: var(--danger); border-style: solid; }
+  .aud-card .tag {
+    font-size: 11px; color: var(--purple); background: var(--purple-light);
+    padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+  }
+
+  /* services */
+  .svc-row {
+    display: grid; grid-template-columns: 1.3fr 0.8fr 1.9fr 40px; gap: 10px;
+    align-items: start; margin-bottom: 10px;
+  }
+  .svc-row .cell-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: none; }
+  .svc-head { display: grid; grid-template-columns: 1.3fr 0.8fr 1.9fr 40px; gap: 10px; margin-bottom: 6px; }
+  .svc-head span { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  /* buttons */
+  .btn {
+    border: none; border-radius: 8px; padding: 10px 18px; cursor: pointer;
+    font-size: 14px; font-family: inherit; font-weight: 500;
+    background: var(--purple); color: #fff;
+  }
+  .btn:hover { background: var(--purple-dark); }
+  .btn-outline { background: #fff; color: var(--purple); border: 1px solid var(--purple); }
+  .btn-outline:hover { background: var(--purple-light); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+  .btn-ghost:hover { color: var(--danger); border-color: var(--danger); background: #fff; }
+  .btn-sm { padding: 6px 12px; font-size: 13px; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+  /* guide 說明書 */
+  .guide-steps { margin: 0 0 14px 20px; color: var(--text); font-size: 13.5px; }
+  .guide-steps li { margin: 5px 0; line-height: 1.7; }
+  .glossary { background: #FFFFFF; border: 1px dashed var(--purple-mid); border-radius: 10px; padding: 14px 16px; }
+  .glossary .g-title { font-size: 13px; font-weight: 500; color: var(--purple-dark); margin-bottom: 6px; }
+  .glossary ul { list-style: none; }
+  .glossary li { font-size: 13px; padding: 4px 0; color: var(--text); line-height: 1.7; }
+  .glossary b { color: var(--ink); }
+  .card.collapsed #guideBody, .card.collapsed .desc { display: none; }
+  .card.collapsed .card-head { margin-bottom: 0; }
+
+  /* 創作工作臺 */
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px;
+    font-size: 13px; cursor: pointer; background: #fff; color: var(--muted);
+  }
+  .chip:has(input:checked) { border-color: var(--purple); background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
+  .chip input { accent-color: var(--purple); margin: 0; }
+  .mini-tag {
+    font-size: 11px; color: var(--purple); background: var(--purple-light);
+    padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+  }
+  .draft-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; background: #FCFCFE; margin-bottom: 12px; }
+  .draft-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .draft-title { font-weight: 700; color: var(--ink); font-size: 14px; }
+  .draft-date { font-size: 11px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+  .draft-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .draft-content {
+    white-space: pre-wrap; font-size: 13px; color: var(--text);
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px; max-height: 220px; overflow: auto; line-height: 1.7;
+  }
+  .draft-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .empty-note { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
+
+  /* 方法論庫 */
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+  .method-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .method-card h3 { font-size: 15px; color: var(--ink); margin-bottom: 10px; font-weight: 700; }
+  .method-card ul { list-style: none; }
+  .method-card li { font-size: 13.5px; padding: 4px 0 4px 18px; position: relative; line-height: 1.7; color: var(--text); }
+  .method-card li::before { content: "▪"; position: absolute; left: 2px; color: var(--purple); }
+  .method-card .m-note { font-size: 12px; color: var(--muted); margin-top: 10px; background: #FCFCFE; border-radius: 8px; padding: 8px 12px; }
+
+  /* 發布助手 */
+  .check-cat { margin-bottom: 18px; }
+  .check-cat h4 { font-size: 14px; color: var(--purple-dark); margin-bottom: 4px; font-weight: 700; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; font-size: 13.5px; cursor: pointer; color: var(--text); }
+  .check-item input { accent-color: var(--purple); margin-top: 4px; width: 15px; height: 15px; flex-shrink: 0; }
+  .check-item input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .check-progress { display: inline-block; font-size: 13px; color: var(--purple-dark); background: var(--purple-light); border-radius: 20px; padding: 4px 14px; }
+  .pub-stats { font-size: 13px; color: var(--purple-dark); background: var(--purple-light); border-radius: 8px; padding: 8px 14px; margin-top: 10px; display: inline-block; }
+  .time-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .time-card { background: #FCFCFE; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .time-card b { color: var(--ink); font-size: 14px; }
+  .time-card p { font-size: 13px; color: var(--text); margin-top: 4px; }
+
+  /* 數據覆盤 */
+  .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .stat-box { background: var(--purple-light); border-radius: 10px; padding: 10px 20px; }
+  .stat-box .s-num { font-size: 20px; font-weight: 700; color: var(--purple-dark); }
+  .stat-box .s-label { font-size: 12px; color: var(--muted); }
+  .rec-wrap { overflow-x: auto; }
+  .rec-row {
+    display: grid; grid-template-columns: 2.2fr 0.9fr 0.8fr 0.8fr 0.9fr 0.8fr 40px;
+    gap: 8px; align-items: center; padding: 10px 8px; border-bottom: 1px solid var(--border); font-size: 13px; min-width: 560px;
+  }
+  .rec-head { color: var(--muted); font-size: 12px; font-weight: 500; background: #FCFCFE; border-radius: 8px; }
+  .rec-title { font-weight: 500; color: var(--ink); }
+  .hot-badge { font-size: 11px; background: var(--teal-light); color: var(--teal); padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .insight-box { background: var(--teal-light); border-radius: 10px; padding: 12px 16px; font-size: 13.5px; color: var(--teal); margin-bottom: 14px; }
+
+  /* 次數與升級 */
+  .usage-badge {
+    font-size: 12px; padding: 4px 12px; border-radius: 20px;
+    background: var(--purple-light); color: var(--purple-dark); cursor: pointer; white-space: nowrap;
+  }
+  .upgrade-card {
+    border: 1px solid var(--purple-mid); background: var(--purple-light);
+    border-radius: var(--radius); padding: 20px; margin-bottom: 20px; display: none;
+  }
+  .upgrade-card.show { display: block; }
+  .upgrade-card h3 { font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .upgrade-card p { font-size: 13.5px; color: var(--text); margin-bottom: 12px; }
+  .unlock-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .unlock-row input { max-width: 220px; }
+  a.btn { text-decoration: none; display: inline-block; }
+  .btn-line { background: #06C755; }
+  .btn-line:hover { background: #05A848; }
+
+  /* prompt output */
+  .prompt-out {
+    margin-top: 14px; width: 100%; min-height: 320px;
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px;
+    background: #FBFBFE; line-height: 1.7;
+  }
+  .prompt-actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+
+  /* placeholder panels */
+  .placeholder { text-align: center; padding: 50px 20px; }
+  .placeholder .ph-icon {
+    width: 52px; height: 52px; border-radius: 14px; background: var(--purple-light);
+    color: var(--purple); font-size: 22px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px; font-weight: 700;
+  }
+  .placeholder h3 { font-size: 17px; color: var(--ink); margin-bottom: 8px; }
+  .placeholder p { color: var(--muted); font-size: 14px; max-width: 480px; margin: 0 auto 18px; }
+  .placeholder ul { text-align: left; max-width: 420px; margin: 0 auto 20px; color: var(--text); list-style: none; }
+  .placeholder li { padding: 6px 0 6px 22px; position: relative; font-size: 13.5px; }
+  .placeholder li::before { content: "▪"; position: absolute; left: 4px; color: var(--purple); }
+  .next-note {
+    display: inline-block; background: var(--teal-light); color: var(--teal);
+    font-size: 13px; padding: 6px 14px; border-radius: 20px;
+  }
+
+  footer { text-align: center; font-size: 12px; color: var(--muted); padding: 10px 0 0; }
+
+  /* toast */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--ink); color: #fff; padding: 10px 22px; border-radius: 10px;
+    font-size: 14px; opacity: 0; transition: all .25s; z-index: 99; pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  @media (max-width: 640px) {
+    .svc-row { grid-template-columns: 1fr 1fr; }
+    .svc-row .full { grid-column: 1 / -1; }
+    .svc-head { display: none; }
+    .svc-row .cell-label { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">A30</div>
+      <div>
+        <h1>AI30CLASS 文案工作台</h1>
+        <p>定位 → 生成 → 發布 → 覆盤</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button class="btn btn-outline btn-sm" id="helpBtn">？ 使用說明</button>
+      <div class="save-status"><span class="save-dot" id="saveDot"></span><span id="saveText">已儲存</span></div>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="profile">品牌設定檔</button>
+    <button class="tab-btn" data-tab="create">創作工作臺</button>
+    <button class="tab-btn" data-tab="method">方法論庫</button>
+    <button class="tab-btn" data-tab="publish">發布助手</button>
+    <button class="tab-btn" data-tab="review">數據覆盤</button>
+  </nav>
+</header>
+
+<div class="wrap">
+<main>
+
+  <!-- ============ 品牌設定檔 ============ -->
+  <section class="panel active" id="panel-profile">
+
+    <div class="card" id="guideCard" style="background: var(--purple-light); border-color: var(--purple-mid);">
+      <div class="card-head">
+        <h2>第一次使用？先看這裡</h2>
+        <button class="btn btn-outline btn-sm" id="guideToggle">收合</button>
+      </div>
+      <p class="desc" style="margin-bottom:12px;">這個工具的目的：讓 AI 幫你寫文案時，用<b>你的語氣</b>、對<b>你的讀者</b>說話、順便推<b>你的東西</b>。照著下面四個區塊填一次（約 3 分鐘），之後寫文案都不用再重新解釋一遍。</p>
+      <div id="guideBody">
+        <ol class="guide-steps">
+          <li><b>照著問題填資料</b>——欄位裡預先填好的都是範例，直接改成你自己的就可以了</li>
+          <li><b>填完按最下面的「一鍵打包」</b>——你填的資料會自動變成一段文字</li>
+          <li><b>複製那段文字，貼到 AI</b>（ChatGPT 等）對話的最開頭——AI 就會照你的風格寫文案</li>
+        </ol>
+        <div class="glossary">
+          <div class="g-title">看不懂的詞，這裡都有白話解釋：</div>
+          <ul>
+            <li><b>客群</b>＝你的讀者是誰。同一件事，跟「完全不會的長輩」和「想省時間的上班族」，說法完全不同。</li>
+            <li><b>CTA</b>＝看完貼文後，你請讀者做的下一個動作。例如：加 LINE、留言 +1、把貼文存起來。</li>
+            <li><b>品牌聲音</b>＝你說話的風格。像朋友聊天？像老師上課？會不會用表情符號？</li>
+            <li><b>提示詞</b>＝給 AI 看的完整說明書。AI 看了就知道要怎麼幫你寫。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2><span class="step">1</span>先說說你是誰</h2></div>
+      <p class="desc">三個問題填完，AI 就知道要幫「什麼樣的你」寫文案。不知道怎麼寫？每格下面都有例子，照著感覺填就好。</p>
+      <div class="three-col">
+        <div>
+          <label class="field-label">你平常都在講什麼主題？</label>
+          <textarea id="pos-interests" rows="3" placeholder="例如：臉部保養教學、家常菜料理、親子育兒"></textarea>
+          <p class="hint">寫你常分享的領域就好，一兩句話即可</p>
+        </div>
+        <div>
+          <label class="field-label">你比一般人厲害的地方是什麼？</label>
+          <textarea id="pos-strengths" rows="3" placeholder="例如：把很難的東西講到小學生都懂、做了 10 年早餐店"></textarea>
+          <p class="hint">想想朋友都來問你什麼問題，那就是了</p>
+        </div>
+        <div>
+          <label class="field-label">你經營社群，最想達成什麼？</label>
+          <textarea id="pos-goals" rows="3" placeholder="例如：把粉絲導去 LINE、賣出自己的課程"></textarea>
+          <p class="hint">寫最實際的那個目標就好</p>
+        </div>
+      </div>
+      <div class="statement-box">
+        <label class="field-label">用一句話介紹你自己</label>
+        <input type="text" id="pos-statement" placeholder="例如：用 10 年美容師的經驗，教妳把保養的錢花在刀口上">
+        <p class="hint">別人看到這一句，就馬上知道你是做什麼的。之後你的簡介、開場、署名都用它。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2><span class="step">2</span>你的讀者是誰？</h2>
+        <button class="btn btn-outline btn-sm" id="addAudience">＋ 加一群讀者</button>
+      </div>
+      <p class="desc">同一件事，跟不同人說法完全不同（跟長輩和跟上班族說話的方式不一樣，對吧）。下面幾張卡是範例，改成你自己常遇到的讀者就好，建議最多 3～4 種。</p>
+      <div class="aud-grid" id="audGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2><span class="step">3</span>你在推什麼？要讀者做什麼？</h2>
+        <button class="btn btn-outline btn-sm" id="addService">＋ 加一個在推的東西</button>
+      </div>
+      <p class="desc">「CTA」聽起來很專業，白話就是：<b>看完貼文後，你想請讀者做的下一個動作</b>（例如：加 LINE、留言、存起來）。把你在推的每個東西配一句話，AI 之後會自動放在文案結尾。</p>
+      <div class="svc-head">
+        <span>你在推的東西</span><span>類型</span><span>要讀者做什麼？（直接寫那句話）</span><span></span>
+      </div>
+      <div id="svcList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2><span class="step">4</span>你說話的風格</h2></div>
+      <p class="desc">填好這區，AI 寫出來的文案就會像你本人寫的，不會像機器人。每一格都有例子，照著感覺改就好。</p>
+      <div class="three-col">
+        <div>
+          <label class="field-label">你說話給人什麼感覺？</label>
+          <textarea id="voice-tone" rows="3" placeholder="例如：像朋友分享好物，親切、不裝專家、不催人"></textarea>
+          <p class="hint">想想朋友都怎麼形容你說話的樣子</p>
+        </div>
+        <div>
+          <label class="field-label">有你習慣講的詞嗎？</label>
+          <textarea id="voice-mustuse" rows="3" placeholder="例如：「超好用」「免費領」、平常掛在嘴邊的口頭禪"></textarea>
+          <p class="hint">沒有特別習慣用詞的話，留著範例或清空都可以</p>
+        </div>
+        <div>
+          <label class="field-label">有絕對不想出現的詞嗎？</label>
+          <textarea id="voice-forbidden" rows="3" placeholder="例如：太浮誇的字（保證、一定賺錢）、簡體字"></textarea>
+          <p class="hint">AI 有時候會太誇張，把你不想看到的字列出來</p>
+        </div>
+      </div>
+      <div class="three-col" style="margin-top: 4px;">
+        <div>
+          <label class="field-label">貼文結尾要怎麼署名？</label>
+          <input type="text" id="voice-signature" placeholder="例如：小明（美食部落客）">
+        </div>
+        <div>
+          <label class="field-label">要不要用表情符號（emoji）？</label>
+          <input type="text" id="voice-emoji" placeholder="例如：適量用 ✨，一句最多一個">
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color: var(--purple-mid);">
+      <div class="card-head"><h2><span class="step">5</span>一鍵打包（填完上面就來這裡）</h2></div>
+      <p class="desc">按下按鈕，你填的所有資料會自動變成一段「給 AI 的說明書」。把它<b>複製起來，貼到 ChatGPT 等 AI 對話的最開頭</b>，AI 就會用你的語氣、對你的讀者、推你的東西來寫文案。</p>
+      <div class="prompt-actions">
+        <button class="btn" id="genPrompt">一鍵打包</button>
+        <button class="btn btn-outline" id="copyPrompt" disabled>複製（貼去 AI 用）</button>
+      </div>
+      <textarea class="prompt-out" id="promptOut" readonly placeholder="按上面的「一鍵打包」，你填的資料會整理成一段文字，出現在這裡……"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm" id="exportBtn">備份我的資料</button>
+        <button class="btn btn-ghost btn-sm" id="importBtn">匯入備份</button>
+        <input type="file" id="importFile" accept=".json" style="display:none">
+        <button class="btn btn-ghost btn-sm" id="resetBtn">回復預設值</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 創作工作臺 ============ -->
+  <section class="panel" id="panel-create">
+
+    <div class="upgrade-card" id="upgradeCard"></div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>開始寫一篇</h2>
+        <span class="usage-badge" id="usageBadge" title="點一下可查看方案"></span>
+      </div>
+      <p class="desc">照著問題填一填、選一選，按「產生提示詞」，把出來的文字貼到 AI（ChatGPT 等），AI 就會照你在「品牌設定檔」填的風格寫好文案。</p>
+      <div class="two-col">
+        <div>
+          <label class="field-label">這次想講什麼？（主題）</label>
+          <textarea id="job-topic" rows="3" placeholder="例如：敏感肌換季怎麼保養？3 個不踩雷的重點"></textarea>
+          <p class="hint">寫個方向就好，想文案是 AI 的工作</p>
+        </div>
+        <div>
+          <label class="field-label">寫給誰看？</label>
+          <select id="job-audience"></select>
+          <label class="field-label">順便推哪個東西？</label>
+          <select id="job-service"></select>
+        </div>
+      </div>
+      <div class="two-col" style="margin-top:8px;">
+        <div>
+          <label class="field-label">發在哪個平台？（可多選）</label>
+          <div class="chip-group" id="job-platforms">
+            <label class="chip"><input type="checkbox" value="IG 貼文" checked>IG 貼文</label>
+            <label class="chip"><input type="checkbox" value="FB 社團">FB 社團</label>
+            <label class="chip"><input type="checkbox" value="LINE 私訊">LINE 私訊</label>
+            <label class="chip"><input type="checkbox" value="短影音口播">短影音口播</label>
+            <label class="chip"><input type="checkbox" value="YouTube 影片">YouTube 影片</label>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">讀者跟你的關係是？</label>
+          <div class="chip-group" id="job-stage">
+            <label class="chip"><input type="radio" name="stage" value="還不認識我" checked>還不認識我</label>
+            <label class="chip"><input type="radio" name="stage" value="對我有興趣">對我有興趣</label>
+            <label class="chip"><input type="radio" name="stage" value="準備要買了">準備要買了</label>
+          </div>
+          <label class="field-label">想要哪種寫法？</label>
+          <div class="chip-group" id="job-version">
+            <label class="chip"><input type="radio" name="version" value="全部三版" checked>全部三版</label>
+            <label class="chip"><input type="radio" name="version" value="A 知識乾貨">A 知識</label>
+            <label class="chip"><input type="radio" name="version" value="B 共鳴故事">B 共鳴</label>
+            <label class="chip"><input type="radio" name="version" value="C 衝突獵奇">C 衝突</label>
+          </div>
+          <p class="hint">A＝教步驟（讓人想存）｜B＝說故事（讓人想留言）｜C＝反差開場（讓人想轉發）</p>
+        </div>
+      </div>
+      <div class="prompt-actions">
+        <button class="btn" id="genJob">產生提示詞</button>
+        <button class="btn btn-outline" id="copyJob" disabled>複製（貼去 AI 用）</button>
+      </div>
+      <textarea class="prompt-out" id="jobOut" readonly placeholder="選好上面的選項，按「產生提示詞」，這裡會出現一段文字，複製去貼給 AI……"></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>AI 寫好了？貼回來存檔</h2></div>
+      <p class="desc">把 AI 寫好的文案貼到下面存起來，之後要用的時候直接複製，不用再回去翻對話紀錄。</p>
+      <label class="field-label">這篇叫什麼？（標題）</label>
+      <input type="text" id="draft-title" placeholder="例如：敏感肌換季保養 IG 貼文">
+      <label class="field-label">文案內容</label>
+      <textarea id="draft-content" rows="6" placeholder="把 AI 寫好的文案整篇貼這裡……"></textarea>
+      <div class="btn-row"><button class="btn" id="saveDraft">存起來</button></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>我的文案庫</h2><span class="hint" id="draftCount" style="align-self:center;"></span></div>
+      <div id="draftList"></div>
+    </div>
+
+  </section>
+
+  <!-- ============ 方法論庫 ============ -->
+  <section class="panel" id="panel-method">
+
+    <div class="card">
+      <div class="card-head"><h2>這是什麼？</h2></div>
+      <p class="desc">把你需要的文案知識全部內建在這裡——不知道寫什麼、開頭怎麼下、結尾怎麼叫人行動，來翻一翻就有靈感。不用背，用的時候對照著看就好。</p>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <h3>① 別人為什麼要看下去？（三有原則）</h3>
+        <ul>
+          <li><b>有用</b>：解決實際問題 → 別人會「存起來」</li>
+          <li><b>有趣</b>：有畫面、有情绪 → 別人會「看下去」</li>
+          <li><b>有共鳴</b>：說中心裡話 → 別人會「留言 +1」</li>
+        </ul>
+        <p class="m-note">每篇至少命中一個。三個都沒有，這篇不用發。</p>
+      </div>
+
+      <div class="method-card">
+        <h3>② 這篇屬於哪一類？（四個萬能腳本）</h3>
+        <ul>
+          <li><b>晒過程</b>：帶大家看你的工作日常（最簡單、最好入門）</li>
+          <li><b>聊觀點</b>：對大家都在聊的話題，說出你的看法</li>
+          <li><b>講故事</b>：你自己或客人的真實故事（立人設最有效）</li>
+          <li><b>教知識</b>：專業拆解（要加一點「外行不知道的」才有人看）</li>
+        </ul>
+        <p class="m-note">四種輪流發，粉絲才會覺得你立體，不是只會一招。</p>
+      </div>
+
+      <div class="method-card">
+        <h3>③ 選題的鉤子（八大爆款元素）</h3>
+        <ul>
+          <li><b>花小錢辦大事</b>：300 元做出 3000 元的感覺</li>
+          <li><b>省時省力</b>：10 分鐘搞定、懶人必看</li>
+          <li><b>外行不知道的秘密</b>：揭密、獵奇</li>
+          <li><b>名人話題</b>：大家都在看的人事物</li>
+          <li><b>懷舊</b>：以前的人怎麼做</li>
+          <li><b>對比</b>：以前 vs 現在、有錢人 vs 小資族（最好用）</li>
+          <li><b>「最差」體驗</b>：評分最差的、踩過最大的坑</li>
+          <li><b>為某群人發聲</b>：新手媽媽、社會新鮮人、敏感肌</li>
+        </ul>
+        <p class="m-note">選題時挑 1–2 個元素放進標題或開頭，不要全塞。</p>
+      </div>
+
+      <div class="method-card">
+        <h3>④ 開場：前 3 秒定生死</h3>
+        <ul>
+          <li>直接打痛點，不要「大家好，我是……」</li>
+          <li>觀點開頭 &gt; 知識開頭：「妳的保養順序錯了」&gt;「保養有五個步驟」</li>
+          <li><b>反直覺</b>最好用：「越保養越糟，問題出在擦太多」</li>
+          <li>開頭丟問題，讓人在心裡回答</li>
+        </ul>
+        <p class="m-note">短影音開場 12 字內；IG 首行一句話就要有鉤子。</p>
+      </div>
+
+      <div class="method-card">
+        <h3>⑤ 結尾：叫人做一個動作（CTA）</h3>
+        <ul>
+          <li>只給「一個」明確動作：存起來／留言 +1／轉給姐妹／加 LINE 領好康</li>
+          <li>禁止只寫「歡迎關注」——等於沒講</li>
+          <li>給理由效果更好：「留言告訴我，我挑常見問題來回答」</li>
+        </ul>
+        <p class="m-note">每篇只要一個 CTA。又要人存、又要人留言、又要人加 LINE，最後什麼都得不到。</p>
+      </div>
+
+      <div class="method-card">
+        <h3>⑥ 發文節奏：養粉絲的比例</h3>
+        <ul>
+          <li><b>6 成</b>寫給「還不認識你的人」：共鳴、有用的乾貨</li>
+          <li><b>3 成</b>寫給「對你有興趣的人」：見證、怎麼選擇</li>
+          <li><b>1 成</b>才是「準備要買的人」：方案、預約</li>
+        </ul>
+        <p class="m-note">大忌：每一篇都在賣。先給價值，再談生意。</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 發布助手 ============ -->
+  <section class="panel" id="panel-publish">
+
+    <div class="card">
+      <div class="card-head"><h2>發文前最後檢查</h2></div>
+      <p class="desc">發出去之前花 30 秒勾一勾，少踩雷。挑一篇你的文案來對照，也可以直接貼上。</p>
+      <label class="field-label">要檢查哪篇文案？</label>
+      <select id="pub-draft"></select>
+      <label class="field-label">或直接貼上要發的文案（會自動算字數）</label>
+      <textarea id="pub-content" rows="6" placeholder="把要發的文案貼這裡，下面會顯示字數……"></textarea>
+      <div class="pub-stats" id="pubStats" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>檢查清單</h2>
+        <span class="check-progress" id="checkProgress">0 / 10 項完成</span>
+      </div>
+      <div class="check-cat">
+        <h4>內容</h4>
+        <label class="check-item"><input type="checkbox"><span>開頭是鉤子（不是「大家好我來介紹」那種寒暄）</span></label>
+        <label class="check-item"><input type="checkbox"><span>結尾有一個明確的 CTA（存／留言／加 LINE，擇一）</span></label>
+        <label class="check-item"><input type="checkbox"><span>有加上署名</span></label>
+        <label class="check-item"><input type="checkbox"><span>從頭到尾看過一次，沒有錯字怪字</span></label>
+      </div>
+      <div class="check-cat">
+        <h4>視覺</h4>
+        <label class="check-item"><input type="checkbox"><span>封面或首圖準備好了</span></label>
+        <label class="check-item"><input type="checkbox"><span>首圖文字 8 字內、夠大夠清楚</span></label>
+      </div>
+      <div class="check-cat">
+        <h4>導流</h4>
+        <label class="check-item"><input type="checkbox"><span>CTA 跟這篇要推的東西一致（不要推 A 卻叫人領 B）</span></label>
+        <label class="check-item"><input type="checkbox"><span>該放的連結放好了（主頁連結／LINE）</span></label>
+      </div>
+      <div class="check-cat">
+        <h4>時機</h4>
+        <label class="check-item"><input type="checkbox"><span>看過下面建議時間，挑粉絲上線的時段發</span></label>
+        <label class="check-item"><input type="checkbox"><span>這篇不是「每一篇都在賣」的那種（參考方法論庫的 6：3：1）</span></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>什麼時間發最好？（參考用）</h2></div>
+      <p class="desc">台灣一般族群的習慣時段。僅供參考——自己的粉絲最準，發個幾篇後去「數據覆盤」看哪個時段互動好。</p>
+      <div class="time-grid">
+        <div class="time-card"><b>IG 貼文</b><p>平日 12:00–13:00（午休滑手機）<br>19:00–22:00（下班放鬆）<br>週末 10:00–12:00</p></div>
+        <div class="time-card"><b>FB 社團／粉專</b><p>平日 12:00–13:00<br>21:00–23:00（睡前滑一下）</p></div>
+        <div class="time-card"><b>LINE 私訊／推播</b><p>08:00–09:00（通勤）<br>20:00–21:00（晚間精華時段）</p></div>
+        <div class="time-card"><b>短影音（Reels／短視頻）</b><p>19:00–23:00 最多人在刷<br>週末整天都不錯</p></div>
+        <div class="time-card"><b>YouTube 影片</b><p>19:00–23:00 與週末是觀看高峰<br>教學搜尋型內容：時間影響小，標題關鍵字才是重點</p></div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color: var(--teal);">
+      <p class="desc" style="margin-bottom:0;"><b>最後一條紅線：</b>AI 只負責幫你打草稿，按「發布」鍵的永遠是你本人。平台不喜歡全自動的內容農場，你的讀者追蹤的也是「人」。</p>
+    </div>
+
+  </section>
+
+  <!-- ============ 數據覆盤 ============ -->
+  <section class="panel" id="panel-review">
+
+    <div class="card">
+      <div class="card-head"><h2>記一筆：這篇表現如何？</h2></div>
+      <p class="desc">發文後 2–3 天，回來把數據記下來。累積幾篇，你就會看到哪種寫法對你的粉絲最有效——這些紀錄就是你自己的流量密碼。</p>
+      <div class="two-col">
+        <div>
+          <label class="field-label">哪篇文案？</label>
+          <select id="rec-draft"></select>
+          <label class="field-label">或直接輸入標題</label>
+          <input type="text" id="rec-title" placeholder="例如：換季保養 A 版">
+        </div>
+        <div>
+          <label class="field-label">發在哪個平台？</label>
+          <select id="rec-platform">
+            <option>IG 貼文</option>
+            <option>FB 社團</option>
+            <option>LINE 私訊</option>
+            <option>短影音</option>
+            <option>YouTube 影片</option>
+          </select>
+          <label class="field-label">觸及多少人？（瀏覽次數）</label>
+          <input type="number" id="rec-reach" min="0" placeholder="例如：1200">
+          <label class="field-label">互動多少？（讚＋留言＋分享加總）</label>
+          <input type="number" id="rec-engage" min="0" placeholder="例如：85">
+        </div>
+      </div>
+      <div class="btn-row"><button class="btn" id="saveRecord">記下來</button></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>全部紀錄</h2><span class="hint" style="align-self:center;" id="recCount"></span></div>
+      <div id="recInsight"></div>
+      <div id="recStats"></div>
+      <div class="rec-wrap" id="recList"></div>
+    </div>
+
+  </section>
+
+  <footer>資料只存在你自己的瀏覽器裡 · AI30CLASS 文案工作台 v0.4</footer>
+</main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "a30cw_profile_v1";
+
+  var storageOK = (function () {
+    try { localStorage.setItem("__a30t", "1"); localStorage.removeItem("__a30t"); return true; }
+    catch (e) { return false; }
+  })();
+
+  var DEFAULT_PROFILE = {
+    positioning: {
+      interests: "臉部保養與皮膚管理——教大家用對的方法照顧皮膚，不亂買、不花冤枉錢",
+      strengths: "10 年美容師經驗，看過各種膚況，一看就知道妳的保養哪裡出了問題",
+      goals: "經營 IG 讓客人認識我，把粉絲導入 LINE 方便預約，穩定工作室客源",
+      statement: "用 10 年美容師的經驗，教妳把保養的錢花在刀口上"
+    },
+    audiences: [
+      { id: "a1", name: "保養新手小資女", pain: "「櫃姐說什麼都好，根本不知道該買哪罐」「保養品越買越貴，皮膚卻沒變好」", tone: "像姐妹分享私藏，只講重點、不推銷" },
+      { id: "a2", name: "敏感肌女孩", pain: "「什麼都不敢擦，一換保養品就泛紅、癢」", tone: "溫柔謹慎，提醒先在耳後測試，嚴重要看醫生" },
+      { id: "a3", name: "忙碌上班族", pain: "「加班到爆肝，回家累攤了，哪有時間保養」", tone: "給懶人包，三分鐘搞定，不增加負擔" },
+      { id: "a4", name: "重要場合前的女孩", pain: "「兩個月後要拍婚紗，皮膚狀況好糟，來得及嗎」", tone: "給時程表一步一步來，安撫焦慮" }
+    ],
+    services: [
+      { id: "s1", name: "居家保養清單（免費領）", type: "免費贈品", cta: "加 LINE 免費領「敏感肌保養清單」（連結在主頁）" },
+      { id: "s2", name: "到店做臉體驗", type: "體驗活動", cta: "私訊或加 LINE 預約首次體驗價" },
+      { id: "s3", name: "臉部保養療程", type: "付費服務", cta: "想改善膚況？加 LINE 諮詢適合妳的方案" },
+      { id: "s4", name: "LINE 官方帳號", type: "社群會員", cta: "加入 LINE，保養問題直接問我" }
+    ],
+    voice: {
+      tone: "溫柔、專業但不嚇人，像閨蜜分享私藏，不推銷、不製造焦慮",
+      mustUse: "膚況、做臉、粉刺、保濕、泛紅（平常說話的用詞）",
+      forbidden: "醫療療效字眼（治療、根治、保證變白）；製造容貌焦慮的話（再不保養就老了）",
+      signature: "小雯（10 年美容師）",
+      emoji: "溫柔款適量（✨🤍🫧），一句最多一個"
+    }
+  };
+
+  function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function uid() { return "id" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+  /* ---------- state ---------- */
+  var profile;
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    profile = raw ? JSON.parse(raw) : deepClone(DEFAULT_PROFILE);
+  } catch (e) {
+    profile = deepClone(DEFAULT_PROFILE);
+  }
+  // 確保欄位齊全（版本相容）
+  profile.positioning = profile.positioning || deepClone(DEFAULT_PROFILE.positioning);
+  profile.audiences = Array.isArray(profile.audiences) ? profile.audiences : deepClone(DEFAULT_PROFILE.audiences);
+  profile.services = Array.isArray(profile.services) ? profile.services : deepClone(DEFAULT_PROFILE.services);
+  profile.voice = profile.voice || deepClone(DEFAULT_PROFILE.voice);
+
+  /* ---------- save ---------- */
+  var saveTimer = null;
+  function scheduleSave() {
+    if (!storageOK) { setSaveStatus("noStorage"); return; }
+    setSaveStatus("saving");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+        setSaveStatus("saved");
+      } catch (e) {
+        setSaveStatus("saved");
+      }
+    }, 600);
+  }
+  function setSaveStatus(state) {
+    var dot = document.getElementById("saveDot");
+    var text = document.getElementById("saveText");
+    if (state === "saving") {
+      dot.className = "save-dot saving";
+      text.textContent = "儲存中…";
+    } else if (state === "noStorage") {
+      dot.className = "save-dot saving";
+      text.textContent = "此環境無法自動儲存，請下載檔案後用瀏覽器開啟";
+    } else {
+      var t = new Date();
+      var hh = ("0" + t.getHours()).slice(-2), mm = ("0" + t.getMinutes()).slice(-2);
+      dot.className = "save-dot";
+      text.textContent = "已儲存 " + hh + ":" + mm;
+    }
+  }
+
+  function toast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.className = "show";
+    setTimeout(function () { el.className = ""; }, 1800);
+  }
+
+  /* 兩段式刪除：第一次按變成「確定刪除」，3 秒內再按一次才執行（不用原生 confirm 彈窗，沙盒環境會擋掉） */
+  function armDelete(btn, onConfirm) {
+    if (btn.dataset.armed === "1") {
+      clearTimeout(btn._t);
+      onConfirm();
+      return;
+    }
+    btn.dataset.armed = "1";
+    btn._orig = btn.innerHTML;
+    btn.innerHTML = "確定刪除";
+    btn.classList.add("confirm");
+    btn._t = setTimeout(function () {
+      btn.dataset.armed = "";
+      btn.innerHTML = btn._orig;
+      btn.classList.remove("confirm");
+    }, 3000);
+  }
+
+  /* ---------- tabs ---------- */
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    var btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    document.querySelectorAll(".panel").forEach(function (p) { p.classList.remove("active"); });
+    var panel = document.getElementById("panel-" + btn.dataset.tab);
+    if (panel) panel.classList.add("active");
+    if (btn.dataset.tab === "create") populateCreateSelects();
+    if (btn.dataset.tab === "publish") populatePublishDrafts();
+    if (btn.dataset.tab === "review") populateRecDrafts();
+  });
+
+  /* ---------- 使用說明 ---------- */
+  var guideCard = document.getElementById("guideCard");
+  var guideToggle = document.getElementById("guideToggle");
+  function setGuideOpen(open) {
+    guideCard.classList.toggle("collapsed", !open);
+    guideToggle.textContent = open ? "收合" : "展開";
+  }
+  guideToggle.addEventListener("click", function () {
+    setGuideOpen(guideCard.classList.contains("collapsed"));
+  });
+  document.getElementById("helpBtn").addEventListener("click", function () {
+    setGuideOpen(true);
+    guideCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  setGuideOpen(!raw);
+
+  /* ---------- 定位三問 + 品牌聲音（靜態欄位綁定） ---------- */
+  var staticFields = [
+    ["pos-interests", "positioning", "interests"],
+    ["pos-strengths", "positioning", "strengths"],
+    ["pos-goals", "positioning", "goals"],
+    ["pos-statement", "positioning", "statement"],
+    ["voice-tone", "voice", "tone"],
+    ["voice-mustuse", "voice", "mustUse"],
+    ["voice-forbidden", "voice", "forbidden"],
+    ["voice-signature", "voice", "signature"],
+    ["voice-emoji", "voice", "emoji"]
+  ];
+  staticFields.forEach(function (f) {
+    var el = document.getElementById(f[0]);
+    if (!el) return;
+    el.value = profile[f[1]][f[2]] || "";
+    el.addEventListener("input", function () {
+      profile[f[1]][f[2]] = el.value;
+      scheduleSave();
+    });
+  });
+
+  /* ---------- 客群 ---------- */
+  var audGrid = document.getElementById("audGrid");
+
+  function renderAudiences() {
+    audGrid.innerHTML = profile.audiences.map(function (a, i) {
+      return '<div class="aud-card" data-i="' + i + '">' +
+        '<div class="aud-top">' +
+          '<input class="aud-name" data-field="name" value="' + esc(a.name) + '" placeholder="例如：職業媽媽">' +
+          '<span class="tag">讀者 ' + (i + 1) + '</span>' +
+          '<span style="flex:1"></span>' +
+          '<button class="icon-btn del-aud" title="刪除此讀者群">✕</button>' +
+        '</div>' +
+        '<label class="field-label" style="font-size:12px;">他們心裡最常抱怨的話（他們的困擾）</label>' +
+        '<textarea rows="2" data-field="pain" placeholder="例如：「下班就沒力氣了，哪有時間學」">' + esc(a.pain) + '</textarea>' +
+        '<label class="field-label" style="font-size:12px;">你會用什麼口氣跟他們說話？</label>' +
+        '<textarea rows="2" data-field="tone" placeholder="例如：像閨蜜聊天，輕鬆但講重點">' + esc(a.tone) + '</textarea>' +
+      '</div>';
+    }).join("");
+  }
+
+  audGrid.addEventListener("input", function (e) {
+    var card = e.target.closest(".aud-card");
+    if (!card) return;
+    var i = parseInt(card.dataset.i, 10);
+    var field = e.target.dataset.field;
+    if (!field) return;
+    profile.audiences[i][field] = e.target.value;
+    scheduleSave();
+  });
+
+  audGrid.addEventListener("click", function (e) {
+    var btn = e.target.closest(".del-aud");
+    if (!btn) return;
+    var card = btn.closest(".aud-card");
+    var i = parseInt(card.dataset.i, 10);
+    armDelete(btn, function () {
+      profile.audiences.splice(i, 1);
+      renderAudiences();
+      scheduleSave();
+      toast("已刪除一個讀者群");
+    });
+  });
+
+  document.getElementById("addAudience").addEventListener("click", function () {
+    profile.audiences.push({ id: uid(), name: "我的讀者", pain: "", tone: "" });
+    renderAudiences();
+    scheduleSave();
+    var cards = audGrid.querySelectorAll(".aud-card");
+    var last = cards[cards.length - 1];
+    if (last) { last.scrollIntoView({ behavior: "smooth", block: "center" }); last.querySelector("input").select(); }
+  });
+
+  /* ---------- 服務 ---------- */
+  var svcList = document.getElementById("svcList");
+  var SVC_TYPES = ["免費贈品", "體驗活動", "付費服務", "付費課程", "社群會員", "其他"];
+
+  function renderServices() {
+    svcList.innerHTML = profile.services.map(function (s, i) {
+      var opts = SVC_TYPES.map(function (t) {
+        return '<option value="' + t + '"' + (s.type === t ? " selected" : "") + '>' + t + '</option>';
+      }).join("");
+      return '<div class="svc-row" data-i="' + i + '">' +
+        '<div><div class="cell-label">你在推的東西</div><input type="text" data-field="name" value="' + esc(s.name) + '" placeholder="例如：免費食譜電子書"></div>' +
+        '<div><div class="cell-label">類型</div><select data-field="type">' + opts + '</select></div>' +
+        '<div><div class="cell-label">要讀者做什麼？（CTA）</div><input type="text" data-field="cta" value="' + esc(s.cta) + '" placeholder="例如：加 LINE 免費領（連結在主頁）"></div>' +
+        '<div style="display:flex; align-items:center; justify-content:flex-end; padding-top:' + (window.innerWidth <= 640 ? "0" : "6px") + ';">' +
+          '<button class="icon-btn del-svc" title="刪除此服務">✕</button>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+  }
+
+  svcList.addEventListener("input", function (e) {
+    var row = e.target.closest(".svc-row");
+    if (!row) return;
+    var i = parseInt(row.dataset.i, 10);
+    var field = e.target.dataset.field;
+    if (!field) return;
+    profile.services[i][field] = e.target.value;
+    scheduleSave();
+  });
+  svcList.addEventListener("change", function (e) {
+    if (e.target.tagName !== "SELECT") return;
+    var row = e.target.closest(".svc-row");
+    var i = parseInt(row.dataset.i, 10);
+    profile.services[i].type = e.target.value;
+    scheduleSave();
+  });
+  svcList.addEventListener("click", function (e) {
+    var btn = e.target.closest(".del-svc");
+    if (!btn) return;
+    var row = btn.closest(".svc-row");
+    var i = parseInt(row.dataset.i, 10);
+    armDelete(btn, function () {
+      profile.services.splice(i, 1);
+      renderServices();
+      scheduleSave();
+      toast("已刪除一個項目");
+    });
+  });
+
+  document.getElementById("addService").addEventListener("click", function () {
+    profile.services.push({ id: uid(), name: "我在推的東西", type: "其他", cta: "" });
+    renderServices();
+    scheduleSave();
+    var rows = svcList.querySelectorAll(".svc-row");
+    var last = rows[rows.length - 1];
+    if (last) { last.scrollIntoView({ behavior: "smooth", block: "center" }); last.querySelector("input").select(); }
+  });
+
+  /* ---------- 品牌提示詞 ---------- */
+  function profileBlock(p) {
+    var aud = p.audiences.map(function (a, i) {
+      return (i + 1) + ". " + (a.name || "未命名") +
+        "\n   痛點語言：" + (a.pain || "—") +
+        "\n   語氣：" + (a.tone || "—");
+    }).join("\n");
+    var svc = p.services.map(function (s, i) {
+      return (i + 1) + ". " + (s.name || "未命名") + "（" + (s.type || "其他") + "）\n   CTA：「" + (s.cta || "—") + "」";
+    }).join("\n");
+    return "一、品牌定位\n" +
+      "- 人設一句話：" + (p.positioning.statement || "—") + "\n" +
+      "- 感興趣的領域：" + (p.positioning.interests || "—") + "\n" +
+      "- 擅長／有經驗的事：" + (p.positioning.strengths || "—") + "\n" +
+      "- 做自媒體的目標：" + (p.positioning.goals || "—") + "\n\n" +
+      "二、客群（動筆前先確認要寫給誰）\n" + aud + "\n\n" +
+      "三、服務與 CTA（依指定服務，直接套用對應話術）\n" + svc + "\n\n" +
+      "四、品牌聲音\n" +
+      "- 語氣：" + (p.voice.tone || "—") + "\n" +
+      "- 必用／偏好用詞：" + (p.voice.mustUse || "—") + "\n" +
+      "- 禁忌（絕對不用）：" + (p.voice.forbidden || "—") + "\n" +
+      "- 署名格式：" + (p.voice.signature || "—") + "\n" +
+      "- Emoji 風格：" + (p.voice.emoji || "—");
+  }
+
+  function buildPrompt(p) {
+    return "【品牌設定檔】\n" +
+      "以下是這個品牌的人設與寫作規範。你是一位為這個品牌寫社群文案的寫手，請全程遵守。\n\n" +
+      profileBlock(p) + "\n\n" +
+      "五、輸出規則\n" +
+      "1. 一律使用繁體中文。\n" +
+      "2. 動筆前先向使用者確認四件事：平台（IG／FB／LINE／短影音）、客群、服務與 CTA、漏斗階段（認知／考慮／轉換）。\n" +
+      "3. CTA 必須具體（加 LINE／留言／存檔），禁止只寫「歡迎關注」。\n" +
+      "4. 開頭用觀點或痛點，不要用知識開頭。\n" +
+      "5. 貼合平台格式：IG 貼文（短句分行＋emoji）、FB 社團文（口語聊天感）、LINE 私訊（精簡、一次只講一件事）、短影音口播（黃金 3 秒開場、強衝擊、無寒暄）。";
+  }
+
+  var promptOut = document.getElementById("promptOut");
+  var copyBtn = document.getElementById("copyPrompt");
+
+  document.getElementById("genPrompt").addEventListener("click", function () {
+    promptOut.value = buildPrompt(profile);
+    copyBtn.disabled = false;
+    toast("品牌提示詞已產生");
+    promptOut.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  copyBtn.addEventListener("click", function () {
+    function fallback() {
+      promptOut.select();
+      try {
+        document.execCommand("copy");
+        toast("已複製到剪貼簿");
+      } catch (err) {
+        toast("複製失敗，請手動全選複製");
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptOut.value).then(function () {
+        toast("已複製到剪貼簿");
+      }).catch(fallback);
+    } else {
+      fallback();
+    }
+  });
+
+  /* ---------- 創作工作臺 ---------- */
+  var PLATFORM_RULES = {
+    "IG 貼文": [
+      "首行是吸睛句（emoji ＋ 痛點或反直覺），讓人想點開更多",
+      "中段乾貨每點一行，行首用 emoji",
+      "結尾：情緒收尾句 → CTA → 署名",
+      "最後附 10–15 個 hashtag（熱門詞＋主題詞都要有）"
+    ],
+    "FB 社團": [
+      "口語聊天感，像在跟社團朋友講話",
+      "段落短、換行多，重點可用 emoji 標",
+      "結尾用提問或互動收尾（例如：你們也遇過嗎？）"
+    ],
+    "LINE 私訊": [
+      "精簡，一次只講一件事（100 字內為主）",
+      "語氣親切，像一對一私訊朋友",
+      "結尾給一個明確的行動就好，不要貪心"
+    ],
+    "短影音口播": [
+      "黃金 3 秒開場：12 字內、直接打痛點，不要寒暄或自我介紹",
+      "結構：鉤子 → 放大痛點 → 解法（分 1、2、3 步）→ 信任 → 結尾引導",
+      "設計一個 3 字記憶錨點，中段和結尾各重複一次",
+      "整支只講一個重點"
+    ],
+    "YouTube 影片": [
+      "標題 60 字內，關鍵字放最前面，加一點情緒或好奇（例如：換季皮膚爆癢？美容師教你 3 招）",
+      "前 5 秒開場：這支要解決什麼 → 痛點 → 看完會得到什麼",
+      "影片節奏：痛點展開 → 核心解法（分點講）→ 實際案例 → 總結＋CTA",
+      "資訊欄：第一行一句話摘要 → 章節時間戳 → 相關連結"
+    ]
+  };
+  var STAGE_NOTES = {
+    "還不認識我": "重共鳴與痛點，先讓人覺得「你懂我」，這篇先不要硬推銷",
+    "對我有興趣": "建立信任，可以提見證或常見疑慮，CTA 帶免費領取最剛好",
+    "準備要買了": "降低猶豫（方案、價格、保證），CTA 直接引導預約或購買"
+  };
+
+  function populateCreateSelects() {
+    var audSel = document.getElementById("job-audience");
+    var svcSel = document.getElementById("job-service");
+    audSel.innerHTML = profile.audiences.length
+      ? profile.audiences.map(function (a) { return '<option value="' + esc(a.name) + '">' + esc(a.name) + "</option>"; }).join("")
+      : '<option value="">（先去「品牌設定檔」加讀者）</option>';
+    svcSel.innerHTML = '<option value="">這篇不用推廣</option>' +
+      profile.services.map(function (s) { return '<option value="' + esc(s.name) + '">' + esc(s.name) + "</option>"; }).join("");
+  }
+
+  function getChecked(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : "";
+  }
+
+  function buildJobPrompt(job) {
+    var platformRules = job.platforms.map(function (pf) {
+      return "◆ " + pf + "\n" + PLATFORM_RULES[pf].map(function (r) { return "  - " + r; }).join("\n");
+    }).join("\n");
+    return "【品牌設定檔】\n" +
+      "以下是這個品牌的人設與寫作規範。你是一位為這個品牌寫社群文案的寫手，請全程遵守。\n\n" +
+      profileBlock(profile) + "\n\n" +
+      "【本次任務：寫文案】\n" +
+      "- 主題：" + job.topic + "\n" +
+      "- 寫給誰：" + job.audience + (job.audDetail ? "（他們的困擾：" + (job.audDetail.pain || "—") + "；要用的口氣：" + (job.audDetail.tone || "—") + "）" : "") + "\n" +
+      "- 順便推：" + (job.service ? job.service + "，CTA：「" + job.cta + "」" : "這篇不用推廣，CTA 以互動為主（留言或存起來）") + "\n" +
+      "- 發布平台：" + job.platforms.join("、") + "\n" +
+      "- 讀者狀態：" + job.stage + "（" + STAGE_NOTES[job.stage] + "）\n\n" +
+      "【平台格式要求】\n" + platformRules + "\n\n" +
+      "【版本】" + (job.version === "全部三版"
+        ? "三個版本都要寫，每版開頭標明版本名稱：\n  A 版（知識乾貨）：步驟清楚、可操作，讓人想存起來\n  B 版（共鳴故事）：用真實故事打中情緒，讓人想留言\n  C 版（衝突獵奇）：反直覺、強對比，讓人想轉發"
+        : "只寫「" + job.version + "」一個版本。") + "\n\n" +
+      "【寫作規則】\n" +
+      "1. 一律繁體中文，確實遵守上面的禁忌詞。\n" +
+      "2. 開頭用觀點或痛點，不要知識開頭、不要寒暄。\n" +
+      "3. CTA 放結尾、要具體（依上面指定），禁止只寫「歡迎關注」。\n" +
+      "4. 結尾加上設定的署名格式。\n" +
+      "5. 語氣貼合指定讀者與品牌聲音。";
+  }
+
+  var jobOut = document.getElementById("jobOut");
+  var copyJobBtn = document.getElementById("copyJob");
+  var lastJobMeta = null;
+
+  /* ---------- 次數限制（示範版：純前端；正式上線需後端計次才鎖得住） ---------- */
+  var USAGE_KEY = "a30cw_usage_v1";
+  var LINE_UNLOCK_CODE = "A30LINE";     /* 加 LINE 官方帳號後自動回覆領取（上線前記得自己改） */
+  var STUDENT_UNLOCK_CODE = "A30CLASS"; /* AI30 主課學員專屬碼（購課後手動發給學員，上線前記得自己改） */
+  var TRIAL_LIMIT = 2;
+  var LINE_LIMIT = 5;
+
+  function loadUsage() {
+    try {
+      var u = JSON.parse(localStorage.getItem(USAGE_KEY));
+      if (u && u.tier) return u;
+    } catch (e) {}
+    return { tier: "trial", used: 0 };
+  }
+  var usage = loadUsage();
+  function persistUsage() {
+    try { localStorage.setItem(USAGE_KEY, JSON.stringify(usage)); } catch (e) {}
+  }
+  function usageTotal() {
+    if (usage.tier === "student") return Infinity;
+    if (usage.tier === "line") return LINE_LIMIT;
+    return TRIAL_LIMIT;
+  }
+  function usageLeft() { return usageTotal() - usage.used; }
+
+  function renderUsageBadge() {
+    var badge = document.getElementById("usageBadge");
+    if (usage.tier === "student") {
+      badge.textContent = "AI30 主課學員 · 無限次";
+      badge.style.background = "var(--teal-light)";
+      badge.style.color = "var(--teal)";
+    } else {
+      var label = usage.tier === "line" ? "LINE 會員" : "免費體驗";
+      badge.textContent = label + " · 剩 " + Math.max(0, usageLeft()) + " 次";
+      badge.style.background = "var(--purple-light)";
+      badge.style.color = "var(--purple-dark)";
+    }
+  }
+
+  function showUpgradeCard() {
+    if (usage.tier === "student") { toast("你已經是 AI30 主課學員了，無限次使用"); return; }
+    var card = document.getElementById("upgradeCard");
+    var html;
+    if (usage.tier === "trial") {
+      html = "<h3>免費次數用完了！</h3>" +
+        "<p>加入 LINE 官方帳號，再多送你 <b>5 次</b> 免費使用。</p>" +
+        '<div class="unlock-row">' +
+          '<a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">加 LINE 領解鎖碼</a>' +
+          '<input type="text" id="unlockInput" placeholder="輸入解鎖碼">' +
+          '<button class="btn btn-outline btn-sm" id="unlockBtn">解鎖</button>' +
+        "</div>";
+    } else {
+      html = "<h3>免費 5 次也用完了！</h3>" +
+        "<p>是 <b>AI30 主課學員</b>嗎？在學期間工具無限次使用、完整功能。還沒上課？加 LINE 了解 AI30 主課。</p>" +
+        '<div class="unlock-row">' +
+          '<a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">加 LINE 了解 AI30 主課</a>' +
+          '<input type="text" id="unlockInput" placeholder="已是學員？輸入學員碼">' +
+          '<button class="btn btn-outline btn-sm" id="unlockBtn">解鎖</button>' +
+        "</div>";
+    }
+    card.innerHTML = html;
+    card.classList.add("show");
+    document.getElementById("unlockBtn").addEventListener("click", function () {
+      var code = (document.getElementById("unlockInput").value || "").trim().toUpperCase();
+      if (usage.tier === "trial" && code === LINE_UNLOCK_CODE) {
+        usage = { tier: "line", used: 0 };
+        persistUsage();
+        renderUsageBadge();
+        card.classList.remove("show");
+        toast("解鎖成功！再多 5 次免費使用");
+      } else if (code === STUDENT_UNLOCK_CODE) {
+        usage = { tier: "student", used: 0 };
+        persistUsage();
+        renderUsageBadge();
+        card.classList.remove("show");
+        toast("驗證成功！AI30 主課學員身份已解鎖，無限次使用");
+      } else {
+        toast("解鎖碼不正確，再檢查一下");
+      }
+    });
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  document.getElementById("usageBadge").addEventListener("click", showUpgradeCard);
+
+  function consumeUsage() {
+    if (usage.tier === "student") return true;
+    if (usageLeft() <= 0) return false;
+    usage.used++;
+    persistUsage();
+    renderUsageBadge();
+    return true;
+  }
+
+  document.getElementById("genJob").addEventListener("click", function () {
+    var topic = document.getElementById("job-topic").value.trim();
+    if (!topic) { toast("先填一下「這次想講什麼」"); return; }
+    var platforms = Array.prototype.slice.call(document.querySelectorAll("#job-platforms input:checked")).map(function (c) { return c.value; });
+    if (!platforms.length) { toast("至少選一個平台"); return; }
+    if (!consumeUsage()) { showUpgradeCard(); return; }
+    var audName = document.getElementById("job-audience").value;
+    var audDetail = profile.audiences.filter(function (a) { return a.name === audName; })[0] || null;
+    var svcName = document.getElementById("job-service").value;
+    var svc = profile.services.filter(function (s) { return s.name === svcName; })[0] || null;
+    var job = {
+      topic: topic,
+      audience: audName || "所有讀者",
+      audDetail: audDetail,
+      service: svc ? svc.name : "",
+      cta: svc ? (svc.cta || "") : "",
+      platforms: platforms,
+      stage: getChecked("stage"),
+      version: getChecked("version")
+    };
+    jobOut.value = buildJobPrompt(job);
+    copyJobBtn.disabled = false;
+    lastJobMeta = job;
+    if (!document.getElementById("draft-title").value) {
+      document.getElementById("draft-title").value = topic;
+    }
+    toast("提示詞產生了，複製去貼給 AI 吧");
+    jobOut.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  copyJobBtn.addEventListener("click", function () {
+    function fallback() {
+      jobOut.select();
+      try { document.execCommand("copy"); toast("已複製到剪貼簿"); }
+      catch (err) { toast("複製失敗，請手動全選複製"); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(jobOut.value).then(function () { toast("已複製到剪貼簿"); }).catch(fallback);
+    } else { fallback(); }
+  });
+
+  /* ---------- 我的文案庫 ---------- */
+  var DRAFTS_KEY = "a30cw_drafts_v1";
+  function loadDrafts() {
+    try { var d = JSON.parse(localStorage.getItem(DRAFTS_KEY)); return Array.isArray(d) ? d : []; }
+    catch (e) { return []; }
+  }
+  var drafts = loadDrafts();
+  function persistDrafts() {
+    try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(drafts)); } catch (e) {}
+  }
+
+  function renderDrafts() {
+    var list = document.getElementById("draftList");
+    document.getElementById("draftCount").textContent = drafts.length ? "共 " + drafts.length + " 篇" : "";
+    if (!drafts.length) {
+      list.innerHTML = '<div class="empty-note">還沒有存任何文案。把上面產生的提示詞貼去 AI，寫好的文案再貼回來這裡存檔。</div>';
+      return;
+    }
+    list.innerHTML = drafts.map(function (d, i) {
+      var tags = [];
+      if (d.meta && d.meta.platforms) tags.push(d.meta.platforms.join("、"));
+      if (d.meta && d.meta.audience) tags.push(d.meta.audience);
+      if (d.meta && d.meta.version) tags.push(d.meta.version);
+      return '<div class="draft-card" data-i="' + i + '">' +
+        '<div class="draft-head"><div class="draft-title">' + esc(d.title) + '</div><div class="draft-date">' + esc(d.date) + "</div></div>" +
+        (tags.length ? '<div class="draft-meta">' + tags.map(function (t) { return '<span class="mini-tag">' + esc(t) + "</span>"; }).join("") + "</div>" : "") +
+        '<div class="draft-content">' + esc(d.content) + "</div>" +
+        '<div class="draft-actions">' +
+          '<button class="btn btn-outline btn-sm act-copy">複製全文</button>' +
+          '<button class="btn btn-ghost btn-sm act-del">刪除</button>' +
+        "</div></div>";
+    }).join("");
+  }
+
+  document.getElementById("draftList").addEventListener("click", function (e) {
+    var card = e.target.closest(".draft-card");
+    if (!card) return;
+    var i = parseInt(card.dataset.i, 10);
+    if (e.target.classList.contains("act-copy")) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(drafts[i].content).then(function () { toast("已複製到剪貼簿"); }).catch(function () { toast("複製失敗，請手動選取複製"); });
+      } else { toast("此環境不支援一鍵複製，請手動選取"); }
+      return;
+    }
+    if (e.target.classList.contains("act-del")) {
+      armDelete(e.target, function () {
+        drafts.splice(i, 1);
+        persistDrafts();
+        renderDrafts();
+        toast("已刪除一篇文案");
+      });
+    }
+  });
+
+  document.getElementById("saveDraft").addEventListener("click", function () {
+    var title = document.getElementById("draft-title").value.trim();
+    var content = document.getElementById("draft-content").value.trim();
+    if (!content) { toast("先貼上 AI 寫好的文案"); return; }
+    var t = new Date();
+    var dateStr = (t.getMonth() + 1) + "/" + t.getDate();
+    drafts.unshift({
+      id: uid(),
+      title: title || "未命名文案 " + dateStr,
+      content: content,
+      date: dateStr,
+      meta: lastJobMeta ? { platforms: lastJobMeta.platforms, audience: lastJobMeta.audience, version: lastJobMeta.version } : null
+    });
+    persistDrafts();
+    renderDrafts();
+    document.getElementById("draft-content").value = "";
+    toast("已存進文案庫");
+  });
+
+  populateCreateSelects();
+  renderDrafts();
+  renderUsageBadge();
+
+  /* ---------- 發布助手 ---------- */
+  var pubDraftSel = document.getElementById("pub-draft");
+  var pubContent = document.getElementById("pub-content");
+  var pubStats = document.getElementById("pubStats");
+
+  function populatePublishDrafts() {
+    pubDraftSel.innerHTML = '<option value="">（從文案庫挑一篇，或直接貼在下面）</option>' +
+      drafts.map(function (d, i) { return '<option value="' + i + '">' + esc(d.title) + "</option>"; }).join("");
+  }
+
+  pubDraftSel.addEventListener("change", function () {
+    var i = this.value;
+    if (i === "" || i === null) return;
+    pubContent.value = drafts[parseInt(i, 10)].content;
+    updatePubStats();
+  });
+
+  function updatePubStats() {
+    var text = pubContent.value;
+    if (!text.trim()) { pubStats.style.display = "none"; return; }
+    var count = text.replace(/\s/g, "").length;
+    var hint = "";
+    if (count > 2200) hint = "——超過 IG 上限 2,200 字，貼不上去！";
+    else if (count > 150) hint = "——超過 150 字，IG 上偏長，滑掉機率高";
+    else hint = "——長度 OK";
+    pubStats.textContent = "這篇共 " + count + " 字" + hint + "（參考：IG 150 字內最好讀、LINE 100 字內、短影音 60 秒約 150 字）";
+    pubStats.style.display = "inline-block";
+  }
+  pubContent.addEventListener("input", updatePubStats);
+
+  var pubChecklist = document.querySelectorAll("#panel-publish .check-item input");
+  function updateCheckProgress() {
+    var total = pubChecklist.length;
+    var done = 0;
+    pubChecklist.forEach(function (c) { if (c.checked) done++; });
+    document.getElementById("checkProgress").textContent = done + " / " + total + " 項完成" + (done === total ? "，可以發了！" : "");
+  }
+  pubChecklist.forEach(function (c) { c.addEventListener("change", updateCheckProgress); });
+  updateCheckProgress();
+
+  populatePublishDrafts();
+
+  /* ---------- 數據覆盤 ---------- */
+  var RECORDS_KEY = "a30cw_records_v1";
+  var recDraftSel = document.getElementById("rec-draft");
+
+  function loadRecords() {
+    try { var r = JSON.parse(localStorage.getItem(RECORDS_KEY)); return Array.isArray(r) ? r : []; }
+    catch (e) { return []; }
+  }
+  var records = loadRecords();
+  function persistRecords() {
+    try { localStorage.setItem(RECORDS_KEY, JSON.stringify(records)); } catch (e) {}
+  }
+
+  function populateRecDrafts() {
+    recDraftSel.innerHTML = '<option value="">（自己輸入標題）</option>' +
+      drafts.map(function (d, i) { return '<option value="' + i + '">' + esc(d.title) + "</option>"; }).join("");
+  }
+
+  recDraftSel.addEventListener("change", function () {
+    var i = this.value;
+    if (i === "" || i === null) return;
+    document.getElementById("rec-title").value = drafts[parseInt(i, 10)].title;
+  });
+
+  document.getElementById("saveRecord").addEventListener("click", function () {
+    var title = document.getElementById("rec-title").value.trim();
+    var reach = parseInt(document.getElementById("rec-reach").value, 10) || 0;
+    var engage = parseInt(document.getElementById("rec-engage").value, 10) || 0;
+    if (!title) { toast("先填這篇的標題"); return; }
+    if (!reach) { toast("觸及數字填一下（0 就沒辦法算互動率了）"); return; }
+    var t = new Date();
+    var dateStr = t.getFullYear() + "/" + (t.getMonth() + 1) + "/" + t.getDate();
+    records.unshift({
+      id: uid(),
+      title: title,
+      platform: document.getElementById("rec-platform").value,
+      reach: reach,
+      engage: engage,
+      rate: Math.round(engage / reach * 1000) / 10,
+      date: dateStr
+    });
+    persistRecords();
+    renderRecords();
+    document.getElementById("rec-reach").value = "";
+    document.getElementById("rec-engage").value = "";
+    document.getElementById("rec-title").value = "";
+    recDraftSel.selectedIndex = 0;
+    toast("已記錄，繼續累積就會看到趨勢");
+  });
+
+  function renderRecords() {
+    var list = document.getElementById("recList");
+    var statsBox = document.getElementById("recStats");
+    var insightBox = document.getElementById("recInsight");
+    document.getElementById("recCount").textContent = records.length ? "共 " + records.length + " 篇" : "";
+
+    if (!records.length) {
+      insightBox.innerHTML = "";
+      statsBox.innerHTML = "";
+      list.innerHTML = '<div class="empty-note">還沒有紀錄。發文後 2–3 天回來記一筆，累積幾篇就會出現你的流量密碼。</div>';
+      return;
+    }
+
+    var avgReach = Math.round(records.reduce(function (s, r) { return s + r.reach; }, 0) / records.length);
+    var avgRate = Math.round(records.reduce(function (s, r) { return s + r.rate; }, 0) / records.length * 10) / 10;
+    var best = records.reduce(function (a, b) { return (b.rate > a.rate) ? b : a; });
+
+    statsBox.innerHTML = '<div class="stats-row">' +
+      '<div class="stat-box"><div class="s-num">' + avgReach.toLocaleString() + '</div><div class="s-label">平均觸及</div></div>' +
+      '<div class="stat-box"><div class="s-num">' + avgRate + '%</div><div class="s-label">平均互動率</div></div>' +
+      '<div class="stat-box"><div class="s-num">' + records.length + '</div><div class="s-label">已記錄篇數</div></div>' +
+      '</div>';
+
+    insightBox.innerHTML = '<div class="insight-box">表現最好的一篇：「' + esc(best.title) + '」（互動率 ' + best.rate + '%，' + esc(best.platform) + '）——這種寫法對你的粉絲有效，多寫這種！</div>';
+
+    var head = '<div class="rec-row rec-head"><span>標題</span><span>平台</span><span>觸及</span><span>互動</span><span>互動率</span><span>日期</span><span></span></div>';
+    var rows = records.map(function (r, i) {
+      var isBest = r.id === best.id && records.length > 1;
+      return '<div class="rec-row" data-i="' + i + '">' +
+        '<span class="rec-title">' + esc(r.title) + (isBest ? ' <span class="hot-badge">目前最佳</span>' : "") + "</span>" +
+        "<span>" + esc(r.platform) + "</span>" +
+        "<span>" + r.reach.toLocaleString() + "</span>" +
+        "<span>" + r.engage.toLocaleString() + "</span>" +
+        "<span>" + r.rate + "%</span>" +
+        '<span style="color:var(--muted);font-size:12px;">' + esc(r.date) + "</span>" +
+        '<button class="icon-btn del-rec" title="刪除此紀錄">✕</button>' +
+        "</div>";
+    }).join("");
+    list.innerHTML = head + rows;
+  }
+
+  document.getElementById("recList").addEventListener("click", function (e) {
+    var btn = e.target.closest(".del-rec");
+    if (!btn) return;
+    var row = btn.closest(".rec-row");
+    var i = parseInt(row.dataset.i, 10);
+    armDelete(btn, function () {
+      records.splice(i, 1);
+      persistRecords();
+      renderRecords();
+      toast("已刪除一筆紀錄");
+    });
+  });
+
+  populateRecDrafts();
+  renderRecords();
+
+  /* ---------- 匯出／匯入／重設 ---------- */
+  document.getElementById("exportBtn").addEventListener("click", function () {
+    var blob = new Blob([JSON.stringify(profile, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "ai30class-品牌設定檔.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("已匯出 JSON 檔");
+  });
+
+  document.getElementById("importBtn").addEventListener("click", function () {
+    document.getElementById("importFile").click();
+  });
+
+  document.getElementById("importFile").addEventListener("change", function (e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data.positioning || !data.voice) throw new Error("格式不符");
+        profile = data;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+        location.reload();
+      } catch (err) {
+        toast("匯入失敗：檔案格式不正確");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    var btn = this;
+    if (btn.dataset.armed === "1") {
+      profile = deepClone(DEFAULT_PROFILE);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); } catch (e) {}
+      location.reload();
+      return;
+    }
+    btn.dataset.armed = "1";
+    btn._origText = btn.textContent;
+    btn.textContent = "再按一次確認重設（建議先匯出備份）";
+    btn.classList.add("confirm");
+    btn._t = setTimeout(function () {
+      btn.dataset.armed = "";
+      btn.textContent = btn._origText;
+      btn.classList.remove("confirm");
+    }, 4000);
+  });
+
+  /* ---------- init ---------- */
+  renderAudiences();
+  renderServices();
+  setSaveStatus(storageOK ? "saved" : "noStorage");
+})();
+</script>
+</body>
+</html>
