@@ -500,6 +500,7 @@
       <div class="prompt-actions">
         <button class="btn" id="genJob">產生提示詞</button>
         <button class="btn btn-outline" id="copyJob" disabled>複製（貼去 AI 用）</button>
+        <button class="btn" id="genDirectBtn" disabled style="background:var(--teal);">✨ 直接生成（AI）</button>
       </div>
       <textarea class="prompt-out" id="jobOut" readonly placeholder="選好上面的選項，按「產生提示詞」，這裡會出現一段文字，複製去貼給 AI……"></textarea>
     </div>
@@ -1155,6 +1156,7 @@
 
   var jobOut = document.getElementById("jobOut");
   var copyJobBtn = document.getElementById("copyJob");
+  var genDirectBtn = document.getElementById("genDirectBtn");
   var lastJobMeta = null;
 
   /* ---------- 次數限制（示範版：純前端；正式上線需後端計次才鎖得住） ---------- */
@@ -1298,6 +1300,7 @@
     };
     jobOut.value = buildJobPrompt(job);
     copyJobBtn.disabled = false;
+    genDirectBtn.disabled = false;
     lastJobMeta = job;
     if (!document.getElementById("draft-title").value) {
       document.getElementById("draft-title").value = topic;
@@ -1315,6 +1318,32 @@
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(jobOut.value).then(function () { toast("已複製到剪貼簿"); }).catch(fallback);
     } else { fallback(); }
+  });
+
+  genDirectBtn.addEventListener("click", function () {
+    if (!jobOut.value) return;
+    genDirectBtn.disabled = true;
+    var oldLabel = genDirectBtn.textContent;
+    genDirectBtn.textContent = "生成中…";
+    fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: jobOut.value })
+    })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error((res.data && res.data.error) || "生成失敗");
+        document.getElementById("draft-content").value = res.data.text;
+        document.getElementById("draft-content").closest(".card").scrollIntoView({ behavior: "smooth", block: "center" });
+        toast("AI 生成完成！檢查一下，沒問題就按「存起來」");
+      })
+      .catch(function (e) {
+        toast("生成失敗：" + e.message + "（可以改用「複製」貼去 ChatGPT）");
+      })
+      .finally(function () {
+        genDirectBtn.disabled = false;
+        genDirectBtn.textContent = oldLabel;
+      });
   });
 
   /* ---------- 我的文案庫 ---------- */
