@@ -53,6 +53,8 @@
   .save-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
   .save-dot { width: 8px; height: 8px; border-radius: 50%; background: #97C459; }
   .save-dot.saving { background: #EF9F27; }
+  .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .header-actions .btn { white-space: nowrap; }
 
   /* tabs */
   .tabs { display: flex; gap: 6px; padding: 12px 20px 0; max-width: 1080px; margin: 0 auto; flex-wrap: wrap; }
@@ -162,7 +164,7 @@
   .card.collapsed #guideBody, .card.collapsed .desc { display: none; }
   .card.collapsed .card-head { margin-bottom: 0; }
 
-  /* 創作工作臺 */
+  /* 創作工作台 */
   .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
   .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
   .chip {
@@ -284,6 +286,9 @@
     .svc-row .full { grid-column: 1 / -1; }
     .svc-head { display: none; }
     .svc-row .cell-label { display: block; }
+
+    .header-inner { flex-wrap: wrap; row-gap: 10px; }
+    .header-actions { width: 100%; justify-content: space-between; }
   }
 </style>
 </head>
@@ -298,14 +303,14 @@
         <p>定位 → 生成 → 發布 → 覆盤</p>
       </div>
     </div>
-    <div style="display:flex; align-items:center; gap:12px;">
+    <div class="header-actions">
       <button class="btn btn-outline btn-sm" id="helpBtn">？ 使用說明</button>
       <div class="save-status"><span class="save-dot" id="saveDot"></span><span id="saveText">已儲存</span></div>
     </div>
   </div>
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="profile">品牌設定檔</button>
-    <button class="tab-btn" data-tab="create">創作工作臺</button>
+    <button class="tab-btn" data-tab="create">創作工作台</button>
     <button class="tab-btn" data-tab="method">方法論庫</button>
     <button class="tab-btn" data-tab="publish">發布助手</button>
     <button class="tab-btn" data-tab="review">數據覆盤</button>
@@ -440,7 +445,7 @@
 
   </section>
 
-  <!-- ============ 創作工作臺 ============ -->
+  <!-- ============ 創作工作台 ============ -->
   <section class="panel" id="panel-create">
 
     <div class="upgrade-card" id="upgradeCard"></div>
@@ -524,7 +529,23 @@
       <p class="desc">把你需要的文案知識全部內建在這裡——不知道寫什麼、開頭怎麼下、結尾怎麼叫人行動，來翻一翻就有靈感。不用背，用的時候對照著看就好。</p>
     </div>
 
-    <div class="method-grid">
+    <div class="card" id="methodLocked">
+      <div class="card-head"><h2>🔒 AI30 主課學員專屬內容</h2></div>
+      <p class="desc">方法論庫是完整的文案方法系統，包含：</p>
+      <ul style="margin:0 0 16px 20px; color:var(--text); font-size:13.5px; line-height:1.9;">
+        <li><b>三有原則</b>——判斷一篇文案值不值得發</li>
+        <li><b>四個萬能腳本</b>——不知道寫什麼類型時直接套</li>
+        <li><b>八大爆款元素</b>——選題怎麼下鉤子</li>
+        <li>開場鐵律、結尾 CTA 心法、發文節奏比例</li>
+      </ul>
+      <div class="unlock-row">
+        <a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">加 LINE 了解 AI30 主課</a>
+        <input type="text" id="methodUnlockInput" placeholder="已是學員？輸入學員碼">
+        <button class="btn btn-outline btn-sm" id="methodUnlockBtn">解鎖</button>
+      </div>
+    </div>
+
+    <div class="method-grid" id="methodContent" style="display:none;">
       <div class="method-card">
         <h3>① 別人為什麼要看下去？（三有原則）</h3>
         <ul>
@@ -829,6 +850,7 @@
     var panel = document.getElementById("panel-" + btn.dataset.tab);
     if (panel) panel.classList.add("active");
     if (btn.dataset.tab === "create") populateCreateSelects();
+    if (btn.dataset.tab === "method") renderMethodGate();
     if (btn.dataset.tab === "publish") populatePublishDrafts();
     if (btn.dataset.tab === "review") populateRecDrafts();
   });
@@ -1047,7 +1069,7 @@
     }
   });
 
-  /* ---------- 創作工作臺 ---------- */
+  /* ---------- 創作工作台 ---------- */
   var PLATFORM_RULES = {
     "IG 貼文": [
       "首行是吸睛句（emoji ＋ 痛點或反直覺），讓人想點開更多",
@@ -1221,6 +1243,31 @@
     renderUsageBadge();
     return true;
   }
+
+  /* ---------- 方法論庫：學員限定鎖 ---------- */
+  function renderMethodGate() {
+    var locked = document.getElementById("methodLocked");
+    var content = document.getElementById("methodContent");
+    if (usage.tier === "student") {
+      locked.style.display = "none";
+      content.style.display = "grid";
+    } else {
+      locked.style.display = "block";
+      content.style.display = "none";
+    }
+  }
+  document.getElementById("methodUnlockBtn").addEventListener("click", function () {
+    var code = (document.getElementById("methodUnlockInput").value || "").trim().toUpperCase();
+    if (code === STUDENT_UNLOCK_CODE) {
+      usage = { tier: "student", used: 0 };
+      persistUsage();
+      renderUsageBadge();
+      renderMethodGate();
+      toast("驗證成功！AI30 主課學員身份已解鎖");
+    } else {
+      toast("學員碼不正確，再檢查一下");
+    }
+  });
 
   document.getElementById("genJob").addEventListener("click", function () {
     var topic = document.getElementById("job-topic").value.trim();
