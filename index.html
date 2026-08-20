@@ -396,7 +396,7 @@
 
     <div class="card">
       <div class="card-head">
-        <h2><span class="step">2</span>你的受眾是誰？</h2>
+        <h2><span class="step">2</span>你要跟誰說話？</h2>
         <button class="btn btn-outline btn-sm" id="addAudience">＋ 加一群受眾</button>
       </div>
       <p class="desc">同一件事，跟不同人說法完全不同（跟長輩和跟上班族說話的方式不一樣，對吧）。下面幾張卡是範例，改成你自己常遇到的受眾就好，建議最多 3～4 種。</p>
@@ -483,7 +483,7 @@
           <p class="hint">寫個方向就好，想文案是 AI 的工作</p>
         </div>
         <div>
-          <label class="field-label">寫給誰看？</label>
+          <label class="field-label">寫給誰看？（必須要在品牌設定那邊去設定好對象是誰）</label>
           <select id="job-audience"></select>
           <label class="field-label">順便推哪個東西？</label>
           <select id="job-service"></select>
@@ -984,12 +984,17 @@
   });
 
   document.getElementById("addAudience").addEventListener("click", function () {
-    profile.audiences.push({ id: uid(), name: "我的受眾", pain: "", tone: "" });
+    profile.audiences.push({ id: uid(), name: "", pain: "", tone: "" });
     renderAudiences();
     scheduleSave();
     var cards = audGrid.querySelectorAll(".aud-card");
     var last = cards[cards.length - 1];
-    if (last) { last.scrollIntoView({ behavior: "smooth", block: "center" }); last.querySelector("input").select(); }
+    if (last) {
+      last.scrollIntoView({ behavior: "smooth", block: "center" });
+      var nameInput = last.querySelector("input");
+      nameInput.focus();
+      toast("先幫這群受眾取個名字，例如「職業媽媽」");
+    }
   });
 
   /* ---------- 服務 ---------- */
