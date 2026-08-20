@@ -301,8 +301,10 @@
     .header-actions { width: 100%; justify-content: space-between; }
 
     /* 輸入框文字小於 16px 時，iOS Safari 點進去會自動放大整個畫面，
-       造成排版「跳掉」看不到上下文。手機版一律拉到 16px 避免這個問題。 */
-    input[type="text"], textarea, select { font-size: 16px !important; }
+       造成排版「跳掉」看不到上下文。手機版一律拉到 16px 避免這個問題。
+       不用 input[type="text"] 限定，因為部分輸入框（例如受眾名稱欄位）
+       是 JS 動態產生、沒有寫 type 屬性，屬性選擇器會漏掉它們。 */
+    input, textarea, select { font-size: 16px !important; }
   }
 </style>
 </head>
@@ -941,7 +943,7 @@
     audGrid.innerHTML = profile.audiences.map(function (a, i) {
       return '<div class="aud-card" data-i="' + i + '">' +
         '<div class="aud-top">' +
-          '<input class="aud-name" data-field="name" value="' + esc(a.name) + '" placeholder="例如：職業媽媽">' +
+          '<input type="text" class="aud-name" data-field="name" value="' + esc(a.name) + '" placeholder="例如：職業媽媽">' +
           '<span class="tag">受眾 ' + (i + 1) + '</span>' +
           '<span style="flex:1"></span>' +
           '<button class="icon-btn del-aud" title="刪除此受眾群">✕</button>' +
