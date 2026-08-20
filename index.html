@@ -305,6 +305,10 @@
        不用 input[type="text"] 限定，因為部分輸入框（例如受眾名稱欄位）
        是 JS 動態產生、沒有寫 type 屬性，屬性選擇器會漏掉它們。 */
     input, textarea, select { font-size: 16px !important; }
+
+    /* .three-col 的 minmax(280px, 1fr) 在較窄的手機螢幕上（扣掉卡片
+       內距後）空間不太夠，會把內容擠出畫面外造成跑版。手機版強制單欄。 */
+    .three-col, .two-col, .aud-grid, .method-grid, .time-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -998,9 +1002,9 @@
         return '<option value="' + t + '"' + (s.type === t ? " selected" : "") + '>' + t + '</option>';
       }).join("");
       return '<div class="svc-row" data-i="' + i + '">' +
-        '<div><div class="cell-label">你在推的東西</div><input type="text" data-field="name" value="' + esc(s.name) + '" placeholder="例如：免費食譜電子書"></div>' +
+        '<div class="full"><div class="cell-label">你在推的東西</div><input type="text" data-field="name" value="' + esc(s.name) + '" placeholder="例如：免費食譜電子書"></div>' +
         '<div><div class="cell-label">類型</div><select data-field="type">' + opts + '</select></div>' +
-        '<div><div class="cell-label">要受眾做什麼？（CTA）</div><input type="text" data-field="cta" value="' + esc(s.cta) + '" placeholder="例如：加 LINE 免費領（連結在主頁）"></div>' +
+        '<div class="full"><div class="cell-label">要受眾做什麼？（CTA）</div><input type="text" data-field="cta" value="' + esc(s.cta) + '" placeholder="例如：加 LINE 免費領（連結在主頁）"></div>' +
         '<div style="display:flex; align-items:center; justify-content:flex-end; padding-top:' + (window.innerWidth <= 640 ? "0" : "6px") + ';">' +
           '<button class="icon-btn del-svc" title="刪除此服務">✕</button>' +
         '</div>' +
