@@ -564,6 +564,7 @@
         <input type="text" id="methodUnlockInput" placeholder="已是學員？輸入學員碼">
         <button class="btn btn-outline btn-sm" id="methodUnlockBtn">解鎖</button>
       </div>
+      <p class="hint" style="margin-top:8px;">小提醒：手機上點了加 LINE 之後，記得切回瀏覽器、回到這個頁面再貼碼。</p>
     </div>
 
     <div class="method-grid" id="methodContent" style="display:none;">
@@ -1248,20 +1249,22 @@
     var html;
     if (usage.tier === "trial") {
       html = "<h3>免費次數用完了！</h3>" +
-        "<p>加入 LINE 官方帳號，再多送你 <b>5 次</b> 免費使用。</p>" +
+        "<p>3 步驟拿 <b>5 次</b>免費使用：① 點下面按鈕加 LINE 官方帳號 ② LINE 會自動傳一組解鎖碼給你 ③ <b>回到這個網頁</b>（不要關掉），把碼貼進下面輸入框、按「解鎖」。</p>" +
         '<div class="unlock-row">' +
-          '<a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">加 LINE 領解鎖碼</a>' +
-          '<input type="text" id="unlockInput" placeholder="輸入解鎖碼">' +
+          '<a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">① 加 LINE 領解鎖碼</a>' +
+          '<input type="text" id="unlockInput" placeholder="③ 貼上解鎖碼">' +
           '<button class="btn btn-outline btn-sm" id="unlockBtn">解鎖</button>' +
-        "</div>";
+        "</div>" +
+        '<p class="hint" style="margin-top:8px;">小提醒：手機上加完 LINE，記得切回瀏覽器、回到這個頁面再貼碼，不要直接關掉分頁。</p>';
     } else {
       html = "<h3>免費 5 次也用完了！</h3>" +
-        "<p>是 <b>AI30 主課學員</b>嗎？在學期間工具無限次使用、完整功能。還沒上課？加 LINE 了解 AI30 主課。</p>" +
+        "<p>是 <b>AI30 主課學員</b>嗎？把 LINE 收到的學員碼貼在下面解鎖，在學期間工具無限次使用。還沒上課？先點下面加 LINE 了解 AI30 主課。</p>" +
         '<div class="unlock-row">' +
           '<a class="btn btn-line" href="https://line.me/R/ti/p/@914blqcf" target="_blank" rel="noopener">加 LINE 了解 AI30 主課</a>' +
           '<input type="text" id="unlockInput" placeholder="已是學員？輸入學員碼">' +
           '<button class="btn btn-outline btn-sm" id="unlockBtn">解鎖</button>' +
-        "</div>";
+        "</div>" +
+        '<p class="hint" style="margin-top:8px;">小提醒：手機上點了加 LINE 之後，記得切回瀏覽器、回到這個頁面再貼碼。</p>';
     }
     card.innerHTML = html;
     card.classList.add("show");
