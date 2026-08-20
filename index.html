@@ -483,7 +483,11 @@
           <p class="hint">寫個方向就好，想文案是 AI 的工作</p>
         </div>
         <div>
-          <label class="field-label">寫給誰看？（必須要在品牌設定那邊去設定好對象是誰）</label>
+          <label class="field-label">寫給誰看？</label>
+          <div id="audienceMissingWarn" style="display:none; background:#FBECEC; border:1px solid #F3C7C7; border-radius:8px; padding:10px 12px; margin-bottom:10px; font-size:13px; color:var(--danger);">
+            ⚠️ 你還沒有設定受眾，AI 不知道要對誰說話。
+            <button type="button" id="goSetAudience" class="btn btn-outline btn-sm" style="margin-top:6px; display:block;">＋ 去品牌設定檔新增受眾</button>
+          </div>
           <select id="job-audience"></select>
           <label class="field-label">順便推哪個東西？</label>
           <select id="job-service"></select>
@@ -1162,12 +1166,23 @@
   function populateCreateSelects() {
     var audSel = document.getElementById("job-audience");
     var svcSel = document.getElementById("job-service");
-    audSel.innerHTML = profile.audiences.length
+    var warn = document.getElementById("audienceMissingWarn");
+    var hasAud = profile.audiences.length > 0;
+    warn.style.display = hasAud ? "none" : "block";
+    audSel.style.display = hasAud ? "" : "none";
+    audSel.innerHTML = hasAud
       ? profile.audiences.map(function (a) { return '<option value="' + esc(a.name) + '">' + esc(a.name) + "</option>"; }).join("")
-      : '<option value="">（先去「品牌設定檔」加受眾）</option>';
+      : "";
     svcSel.innerHTML = '<option value="">這篇不用推廣</option>' +
       profile.services.map(function (s) { return '<option value="' + esc(s.name) + '">' + esc(s.name) + "</option>"; }).join("");
   }
+  document.getElementById("goSetAudience").addEventListener("click", function () {
+    document.querySelector('.tab-btn[data-tab="profile"]').click();
+    setTimeout(function () {
+      document.getElementById("audGrid").scrollIntoView({ behavior: "smooth", block: "center" });
+      document.getElementById("addAudience").click();
+    }, 100);
+  });
 
   function getChecked(name) {
     var el = document.querySelector('input[name="' + name + '"]:checked');
