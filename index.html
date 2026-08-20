@@ -320,7 +320,7 @@
       <div class="logo">A30</div>
       <div>
         <h1>AI30CLASS 文案工作台</h1>
-        <p>定位 → 生成 → 發布 → 覆盤</p>
+        <p>品牌資料設定好一次，之後隨心換主題，一鍵直接產出貼合你風格的文案</p>
       </div>
     </div>
     <div class="header-actions">
@@ -469,6 +469,12 @@
   <section class="panel" id="panel-create">
 
     <div class="upgrade-card" id="upgradeCard"></div>
+
+    <div class="card" id="defaultProfileWarn" style="display:none; background:#FFF7E6; border-color:#F0D999;">
+      <div class="card-head"><h2>⚠️ 你還在用範例品牌資料</h2></div>
+      <p class="desc" style="margin-bottom:12px;">現在填的都還是預設範例（美容師小雯），AI 生成出來的文案會照這個範例的語氣寫，不是你自己的風格。先去品牌設定檔改成你的資料，生成的文案才會真的貼合你。</p>
+      <button type="button" id="goEditProfile" class="btn btn-outline btn-sm">＋ 去品牌設定檔填自己的資料</button>
+    </div>
 
     <div class="card">
       <div class="card-head">
@@ -1164,6 +1170,8 @@
   };
 
   function populateCreateSelects() {
+    var defaultWarn = document.getElementById("defaultProfileWarn");
+    defaultWarn.style.display = (JSON.stringify(profile) === JSON.stringify(DEFAULT_PROFILE)) ? "block" : "none";
     var audSel = document.getElementById("job-audience");
     var svcSel = document.getElementById("job-service");
     var warn = document.getElementById("audienceMissingWarn");
@@ -1181,6 +1189,12 @@
     setTimeout(function () {
       document.getElementById("audGrid").scrollIntoView({ behavior: "smooth", block: "center" });
       document.getElementById("addAudience").click();
+    }, 100);
+  });
+  document.getElementById("goEditProfile").addEventListener("click", function () {
+    document.querySelector('.tab-btn[data-tab="profile"]').click();
+    setTimeout(function () {
+      document.getElementById("panel-profile").scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   });
 
