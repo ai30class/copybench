@@ -81,6 +81,13 @@
   }
   .tab-btn.active .badge { background: rgba(255,255,255,0.25); color: #fff; }
 
+  .profile-summary-bar {
+    display: none;
+    background: var(--purple-light); border-top: 1px solid var(--purple-mid);
+    padding: 8px 20px; font-size: 12.5px; color: var(--purple-dark); line-height: 1.5;
+  }
+  .profile-summary-bar.show { display: block; }
+
   main { padding-top: 24px; }
   .panel { display: none; }
   .panel.active { display: block; }
@@ -335,6 +342,7 @@
     <button class="tab-btn" data-tab="publish">發布助手</button>
     <button class="tab-btn" data-tab="review">數據覆盤</button>
   </nav>
+  <div class="profile-summary-bar" id="profileSummaryBar">已填：<span id="summaryText"></span></div>
 </header>
 
 <div class="wrap">
@@ -843,7 +851,23 @@
 
   /* ---------- save ---------- */
   var saveTimer = null;
+  function updateProfileSummary() {
+    var el = document.getElementById("summaryText");
+    if (!el) return;
+    function trunc(s, n) { return s.length > n ? s.slice(0, n) + "…" : s; }
+    var statement = profile.positioning.statement || profile.positioning.interests || "";
+    var audNames = profile.audiences.map(function (a) { return a.name; }).filter(Boolean).join("、");
+    var voiceTone = profile.voice.tone || "";
+    var parts = [
+      statement ? trunc(statement, 14) : "定位還沒填",
+      audNames ? "受眾「" + audNames + "」" : "受眾還沒填",
+      voiceTone ? "聲音：" + trunc(voiceTone, 10) : "聲音還沒填"
+    ];
+    el.textContent = parts.join(" ／ ");
+  }
+
   function scheduleSave() {
+    updateProfileSummary();
     if (!storageOK) { setSaveStatus("noStorage"); return; }
     setSaveStatus("saving");
     clearTimeout(saveTimer);
@@ -907,6 +931,7 @@
     document.querySelectorAll(".panel").forEach(function (p) { p.classList.remove("active"); });
     var panel = document.getElementById("panel-" + btn.dataset.tab);
     if (panel) panel.classList.add("active");
+    document.getElementById("profileSummaryBar").classList.toggle("show", btn.dataset.tab === "profile");
     if (btn.dataset.tab === "create") populateCreateSelects();
     if (btn.dataset.tab === "method") renderMethodGate();
     if (btn.dataset.tab === "publish") populatePublishDrafts();
@@ -1718,6 +1743,8 @@
   /* ---------- init ---------- */
   renderAudiences();
   renderServices();
+  updateProfileSummary();
+  document.getElementById("profileSummaryBar").classList.add("show");
   setSaveStatus(storageOK ? "saved" : "noStorage");
 })();
 </script>
